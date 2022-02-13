@@ -14,8 +14,16 @@
 #include <net/if.h>
 #include <pcap/pcap.h>
 
+void callback(u_char *user, const struct pcap_pkthdr *h,
+        const u_char *butes)
+{
+    // handling packets
+}
+
 int main()
 {
+    pcap_t *p;
+    int to_ms;
     int pcap_status;
     char ifname[IF_NAMESIZE];
     char errbuf[PCAP_ERRBUF_SIZE];
@@ -38,9 +46,28 @@ int main()
     }
 
     strncpy(ifname, alldevsp->name, IF_NAMESIZE);
-    printf("Activating %s\n", ifname);
-
     pcap_freealldevs(alldevsp);
+
+    printf("Activating %s\n", ifname);
+    p = pcap_create(ifname, errbuf);
+    if (p == NULL) {
+        fprintf(stderr, "pcap_create: %s\n", errbuf);
+        exit(EXIT_FAILURE);
+    }
     
+    to_ms = 2000;
+    pcap_set_timeout(p, to_ms);
+
+    pcap_status = pcap_activate(p);
+    if (pcap_status != 0) {
+        pcap_perror(p, "pcap_activate");
+        pcap_close(p);
+        exit(EXIT_FAILURE);
+    }
+
+    pcap_loop(p, 0, callback, NULL);
+
+    pcap_close(p);
+
     return 0;
 }
