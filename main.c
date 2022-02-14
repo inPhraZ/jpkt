@@ -10,14 +10,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <net/if.h>
+#include <net/ethernet.h>
 #include <pcap/pcap.h>
 
+#include "packet.h"
+
 void callback(u_char *user, const struct pcap_pkthdr *h,
-        const u_char *butes)
+        const u_char *bytes)
 {
     // handling packets
+    u_int16_t type = ethernet_type(user, bytes);
+    switch(type) {
+        case ETHERTYPE_IP:
+            printf("IP\n");
+            break;
+        default:
+            printf("?\n");
+            break;
+    }
 }
 
 int main()
