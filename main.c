@@ -25,6 +25,15 @@ void callback(u_char *user, const struct pcap_pkthdr *h,
         case ETHERTYPE_IP:
             printf("IP\n");
             break;
+        case ETHERTYPE_IPV6:
+            printf("IPv6\n");
+            break;
+        case ETHERTYPE_ARP:
+            printf("ARP\n");
+            break;
+        case ETHERTYPE_REVARP:
+            printf("REVARP\n");
+            break;
         default:
             printf("?\n");
             break;
