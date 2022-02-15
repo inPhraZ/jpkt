@@ -8,7 +8,7 @@
  */
 
 #ifndef __REPONET_PACKET_H_
-#define __REPONET_PACKET_H_
+#define __REPONET_PACKET_H_     1
 
 #include <sys/types.h>
 
