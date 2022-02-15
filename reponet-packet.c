@@ -10,7 +10,7 @@
 #include <arpa/inet.h>
 #include <net/ethernet.h>
 
-#include "packet.h"
+#include "reponet-packet.h"
 
 u_int16_t ethernet_type(u_char *user, const u_char *bytes)
 {

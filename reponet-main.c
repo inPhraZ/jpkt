@@ -14,7 +14,7 @@
 #include <net/ethernet.h>
 #include <pcap/pcap.h>
 
-#include "packet.h"
+#include "reponet-packet.h"
 
 void callback(u_char *user, const struct pcap_pkthdr *h,
         const u_char *bytes)
