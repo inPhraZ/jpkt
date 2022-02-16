@@ -34,6 +34,6 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 
 /*  Free allocated memory and assign NULL to the pointer */
 #define     free_packet(pkt)    \
-    do { free(pktmsg); free(pkt); pkt = NULL; } while(0)
+    do { free(pkt->pktmsg); free(pkt); pkt = NULL; } while(0)
 
 #endif  /*  __REPONET_PACKET_H_ */
