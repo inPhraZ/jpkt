@@ -10,6 +10,7 @@
 #ifndef __REPONET_PACKET_H_
 #define __REPONET_PACKET_H_     1
 
+#include <stdlib.h>
 #include <pcap/pcap.h>
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -26,15 +27,12 @@ STAILQ_HEAD(packet_queue, Packet);
 /* Allocate memory for a Packet and initialize it */
 Packetptr   allocate_packet();
 
+/* Analyze the packet */
 Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 
-/*  Free allocated memory for Packet */
-void        free_allocated_packet(Packetptr);
-
 /*  Free allocated memory and assign NULL to the pointer */
-/*  Use this */
 #define     free_packet(pkt)    \
-    do { free_allocated_packet(pkt); pkt = NULL; } while(0)
+    do { free(pkt); pkt = NULL; } while(0)
 
 #if 0
 u_int16_t ethernet_type(u_char *user, const u_char *bytes);
