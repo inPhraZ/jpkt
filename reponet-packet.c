@@ -41,16 +41,3 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
      *-----------------------------------------------------------------------------*/
     return pktptr;
 }
-
-#if 0
-u_int16_t ethernet_type(u_char *user, const u_char *bytes)
-{
-    u_int16_t type;
-    struct ether_header *ehp;
-
-    ehp = (struct ether_header *)bytes;
-    type = ntohs(ehp->ether_type);
-    return type;
-}
-
-#endif
