@@ -20,10 +20,11 @@ void callback(u_char *user, const struct pcap_pkthdr *h,
         const u_char *bytes)
 {
     // handling packets
-    Packetptr pktptr = allocate_packet();
-    if (pktptr) {
-        free_packet(pktptr);
-    }
+    Packetptr pktptr = analyze_packet(h, bytes);
+    /*-----------------------------------------------------------------------------
+     * TODO: analyze the packet 
+     *-----------------------------------------------------------------------------*/
+    free_packet(pktptr);
 
 #if 0
     u_int16_t type = ethernet_type(user, bytes);
