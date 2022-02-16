@@ -23,7 +23,8 @@ typedef struct __reponet_packet {
 } Packet, *Packetptr;
 
 /* Singly-linked Tail queue decleration for packet queue */
-STAILQ_HEAD(packet_queue, Packet);
+STAILQ_HEAD(__packet_queue, Packet);
+typedef struct __packet_queue PktQueue;
 
 /* Allocate memory for a Packet and initialize it */
 Packetptr   allocate_packet();
