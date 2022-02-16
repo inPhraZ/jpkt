@@ -19,7 +19,6 @@
 void callback(u_char *user, const struct pcap_pkthdr *h,
         const u_char *bytes)
 {
-    // handling packets
     Packetptr pktptr = analyze_packet(h, bytes);
     /*-----------------------------------------------------------------------------
      * TODO: add to queue
