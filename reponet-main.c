@@ -22,30 +22,9 @@ void callback(u_char *user, const struct pcap_pkthdr *h,
     // handling packets
     Packetptr pktptr = analyze_packet(h, bytes);
     /*-----------------------------------------------------------------------------
-     * TODO: analyze the packet 
+     * TODO: add to queue
      *-----------------------------------------------------------------------------*/
     free_packet(pktptr);
-
-#if 0
-    u_int16_t type = ethernet_type(user, bytes);
-    switch(type) {
-        case ETHERTYPE_IP:
-            printf("IP\n");
-            break;
-        case ETHERTYPE_IPV6:
-            printf("IPv6\n");
-            break;
-        case ETHERTYPE_ARP:
-            printf("ARP\n");
-            break;
-        case ETHERTYPE_REVARP:
-            printf("REVARP\n");
-            break;
-        default:
-            printf("?\n");
-            break;
-    }
-#endif
 }
 
 int main()

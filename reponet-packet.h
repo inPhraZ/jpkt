@@ -34,8 +34,4 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 #define     free_packet(pkt)    \
     do { free(pkt); pkt = NULL; } while(0)
 
-#if 0
-u_int16_t ethernet_type(u_char *user, const u_char *bytes);
-#endif
-
 #endif  /*  __REPONET_PACKET_H_ */
