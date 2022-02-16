@@ -22,6 +22,7 @@ typedef struct __reponet_packet {
     STAILQ_ENTRY(__reponet_packet)   entries;
 } Packet, *Packetptr;
 
+/* Singly-linked Tail queue decleration for packet queue */
 STAILQ_HEAD(packet_queue, Packet);
 
 /* Allocate memory for a Packet and initialize it */
