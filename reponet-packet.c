@@ -85,6 +85,8 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
         return NULL;
     }
 
+    u_char *tmp_bytes = (bytes + sizeof((struct ether_header)));
+
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
      *-----------------------------------------------------------------------------*/
