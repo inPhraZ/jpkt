@@ -39,7 +39,7 @@ static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
         return 0;
     }
 
-    json_builder_set_member_name(builder, "eth");   /*  eth object */
+    json_builder_set_member_name(builder, "eth");   /*  begin object: eth */
     json_builder_begin_object(builder);
 
     /* eth.shost  */
@@ -57,7 +57,7 @@ static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
     type = ethp->type;
     ethernet_free(ethp);
 
-    json_builder_end_object(builder);   /*  end of eth object */
+    json_builder_end_object(builder);   /*  end of object: eth */
 
     return type;
 }
@@ -73,9 +73,9 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 
     g_autoptr(JsonBuilder) builder = json_builder_new();
 
-    json_builder_begin_object(builder); /*  main object */
+    json_builder_begin_object(builder); /*  begin object: main */
     json_builder_set_member_name(builder, "layers");
-    json_builder_begin_object(builder); /*  layers object */
+    json_builder_begin_object(builder); /*  begin object: layers */
 
     /*  ethernet header */
     uint16_t type = analyze_packet_eth(builder, bytes);
@@ -85,14 +85,15 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
         return NULL;
     }
 
+    /* Skip ethernet header */
     u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
      *-----------------------------------------------------------------------------*/
 
-    json_builder_end_object(builder);   /*  end of layers object */
-    json_builder_end_object(builder);   /*  end of main object */
+    json_builder_end_object(builder);   /*  end of object: layers */
+    json_builder_end_object(builder);   /*  end of object: main */
 
     g_autoptr(JsonNode) root = json_builder_get_root(builder);
     g_autoptr(JsonGenerator) gen = json_generator_new();
