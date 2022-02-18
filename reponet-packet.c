@@ -20,6 +20,20 @@
 #include "reponet-packet.h"
 #include "reponet-eth.h"
 
+static int (*analyze_protocols[])(const u_char *bytes) = {
+    [ETHERTYPE_PUP]         NULL,
+    [ETHERTYPE_SPRITE]      NULL,
+    [ETHERTYPE_IP]          NULL,
+    [ETHERTYPE_ARP]         NULL,
+    [ETHERTYPE_REVARP]      NULL,
+    [ETHERTYPE_AT]          NULL,
+    [ETHERTYPE_AARP]        NULL,
+    [ETHERTYPE_VLAN]        NULL,
+    [ETHERTYPE_IPX]         NULL,
+    [ETHERTYPE_IPV6]        NULL,
+    [ETHERTYPE_LOOPBACK]    NULL
+};
+
 Packetptr allocate_packet()
 {
     Packetptr pktptr;
