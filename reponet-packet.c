@@ -30,12 +30,13 @@ Packetptr allocate_packet()
     return pktptr;
 }
 
-static int  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
+static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
+    uint16_t type;
     EthernetPtr ethp = ethernet_extract(bytes);
     if (!ethp) {
         fprintf(stderr, "ethernet_extract failed");
-        return -1;
+        return 0;
     }
 
     json_builder_set_member_name(builder, "eth");   /*  eth object */
@@ -53,11 +54,12 @@ static int  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
     json_builder_set_member_name(builder, "eth.type");
     json_builder_add_string_value(builder, ethp->type_str);
 
+    type = ethp->type;
     ethernet_free(ethp);
 
     json_builder_end_object(builder);   /*  end of eth object */
 
-    return 0;
+    return type;
 }
 
 Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
@@ -76,7 +78,8 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     json_builder_begin_object(builder); /*  layers object */
 
     /*  ethernet header */
-    if (analyze_packet_eth(builder, bytes) == -1) {
+    uint16_t type = analyze_packet_eth(builder, bytes);
+    if (type == 0) {
         free_packet(pktptr);
         json_builder_reset(builder);
         return NULL;
