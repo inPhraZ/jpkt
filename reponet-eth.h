@@ -25,7 +25,7 @@ EthernetPtr     ethernet_extract(const u_char *bytes);
 
 /*  Free allocated memory and assign NULL to the pointer */
 #define     ethernet_free(ethp)      \
-    do {                            \
+    do {                             \
         free(ethp->dhost_str);       \
         free(ethp->shost_str);       \
         free(ethp->type_str);        \
