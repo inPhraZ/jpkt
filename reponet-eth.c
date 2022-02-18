@@ -91,11 +91,11 @@ EthernetPtr ethernet_extract(const u_char *bytes)
 
     ethp->dhost_str = ethernet_get_dhost(eh);
     ethp->shost_str = ethernet_get_shost(eh);
+    ethp->type_str  = ethernet_get_type(ethp->type);
 
-    /*-----------------------------------------------------------------------------
-     * TODO: ethp->type_str 
-     *-----------------------------------------------------------------------------*/
-    if (!ethp->dhost_str || !ethp->shost_str)
+    if (!ethp->dhost_str
+            || !ethp->shost_str
+            || !ethp->type_str)
         ethernet_free(ethp);
 
     return ethp;
