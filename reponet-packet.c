@@ -49,9 +49,10 @@ static int  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
     json_builder_set_member_name(builder, "eth.dhost");
     json_builder_add_string_value(builder, ethp->dhost_str);
 
-    /*-----------------------------------------------------------------------------
-     * TODO: eth.type 
-     *-----------------------------------------------------------------------------*/
+    /* eth.type */
+    json_builder_set_member_name(builder, "eth.type");
+    json_builder_add_string_value(builder, ethp->type_str);
+
     ethernet_free(ethp);
 
     json_builder_end_object(builder);   /*  end of eth object */
