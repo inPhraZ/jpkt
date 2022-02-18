@@ -52,11 +52,11 @@ static char *ethernet_get_shost(struct ether_header *eh)
     return host;
 }
 
-static char *ethernet_get_type(struct ether_header *eh)
+static char *ethernet_get_type(const uint16_t type)
 {
-    if (!eh)
-        return NULL;
-
+    char *type_str;
+    type_str = strndup(ethernet_type_ids[type], ETHERNET_MAX_TYPEID_LEN);
+    return type_str;
 }
 
 static char *ethernet_get_dhost(struct ether_header *eh)
@@ -91,7 +91,6 @@ EthernetPtr ethernet_extract(const u_char *bytes)
 
     ethp->dhost_str = ethernet_get_dhost(eh);
     ethp->shost_str = ethernet_get_shost(eh);
-
 
     /*-----------------------------------------------------------------------------
      * TODO: ethp->type_str 
