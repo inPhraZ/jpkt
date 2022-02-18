@@ -33,6 +33,7 @@ EthernetPtr     ethernet_extract(const u_char *bytes);
         ethp = NULL;                 \
     } while(0)
 
-#define     ETHERNET_MAX_HOST_LEN   18
+#define     ETHERNET_MAX_HOST_LEN       18
+#define     ETHERNET_MAX_TYPEID_LEN     8
 
 #endif      /*  __REPONET_ETHERNET_H_ */
