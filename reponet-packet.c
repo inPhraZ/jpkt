@@ -20,18 +20,23 @@
 #include "reponet-packet.h"
 #include "reponet-eth.h"
 
+static int dummy_call(const u_char *bytes)
+{
+    return 0;
+}
+
 static int (*analyze_protocols[])(const u_char *bytes) = {
-    [ETHERTYPE_PUP]         NULL,
-    [ETHERTYPE_SPRITE]      NULL,
-    [ETHERTYPE_IP]          NULL,
-    [ETHERTYPE_ARP]         NULL,
-    [ETHERTYPE_REVARP]      NULL,
-    [ETHERTYPE_AT]          NULL,
-    [ETHERTYPE_AARP]        NULL,
-    [ETHERTYPE_VLAN]        NULL,
-    [ETHERTYPE_IPX]         NULL,
-    [ETHERTYPE_IPV6]        NULL,
-    [ETHERTYPE_LOOPBACK]    NULL
+    [ETHERTYPE_PUP]         dummy_call,
+    [ETHERTYPE_SPRITE]      dummy_call,
+    [ETHERTYPE_IP]          dummy_call,
+    [ETHERTYPE_ARP]         dummy_call,
+    [ETHERTYPE_REVARP]      dummy_call,
+    [ETHERTYPE_AT]          dummy_call,
+    [ETHERTYPE_AARP]        dummy_call,
+    [ETHERTYPE_VLAN]        dummy_call,
+    [ETHERTYPE_IPX]         dummy_call,
+    [ETHERTYPE_IPV6]        dummy_call,
+    [ETHERTYPE_LOOPBACK]    dummy_call
 };
 
 Packetptr allocate_packet()
