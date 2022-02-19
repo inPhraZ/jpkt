@@ -102,6 +102,8 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     /* Skip ethernet header */
     u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
+    analyze_protocols[type](tmp_bytes);
+
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
      *-----------------------------------------------------------------------------*/
