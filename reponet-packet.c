@@ -20,6 +20,25 @@
 #include "reponet-packet.h"
 #include "reponet-eth.h"
 
+static int dummy_call(const u_char *bytes)
+{
+    return 0;
+}
+
+static int (*analyze_protocols[])(const u_char *bytes) = {
+    [ETHERTYPE_PUP]         dummy_call,
+    [ETHERTYPE_SPRITE]      dummy_call,
+    [ETHERTYPE_IP]          dummy_call,
+    [ETHERTYPE_ARP]         dummy_call,
+    [ETHERTYPE_REVARP]      dummy_call,
+    [ETHERTYPE_AT]          dummy_call,
+    [ETHERTYPE_AARP]        dummy_call,
+    [ETHERTYPE_VLAN]        dummy_call,
+    [ETHERTYPE_IPX]         dummy_call,
+    [ETHERTYPE_IPV6]        dummy_call,
+    [ETHERTYPE_LOOPBACK]    dummy_call
+};
+
 Packetptr allocate_packet()
 {
     Packetptr pktptr;
@@ -30,15 +49,16 @@ Packetptr allocate_packet()
     return pktptr;
 }
 
-static int  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
+static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
+    uint16_t type;
     EthernetPtr ethp = ethernet_extract(bytes);
     if (!ethp) {
         fprintf(stderr, "ethernet_extract failed");
-        return -1;
+        return 0;
     }
 
-    json_builder_set_member_name(builder, "eth");   /*  eth object */
+    json_builder_set_member_name(builder, "eth");   /*  begin object: eth */
     json_builder_begin_object(builder);
 
     /* eth.shost  */
@@ -53,11 +73,12 @@ static int  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
     json_builder_set_member_name(builder, "eth.type");
     json_builder_add_string_value(builder, ethp->type_str);
 
+    type = ethp->type;
     ethernet_free(ethp);
 
-    json_builder_end_object(builder);   /*  end of eth object */
+    json_builder_end_object(builder);   /*  end of object: eth */
 
-    return 0;
+    return type;
 }
 
 Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
@@ -71,23 +92,29 @@ Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 
     g_autoptr(JsonBuilder) builder = json_builder_new();
 
-    json_builder_begin_object(builder); /*  main object */
+    json_builder_begin_object(builder); /*  begin object: main */
     json_builder_set_member_name(builder, "layers");
-    json_builder_begin_object(builder); /*  layers object */
+    json_builder_begin_object(builder); /*  begin object: layers */
 
     /*  ethernet header */
-    if (analyze_packet_eth(builder, bytes) == -1) {
+    uint16_t type = analyze_packet_eth(builder, bytes);
+    if (type == 0) {
         free_packet(pktptr);
         json_builder_reset(builder);
         return NULL;
     }
 
+    /* Skip ethernet header */
+    u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
+
+    analyze_protocols[type](tmp_bytes);
+
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
      *-----------------------------------------------------------------------------*/
 
-    json_builder_end_object(builder);   /*  end of layers object */
-    json_builder_end_object(builder);   /*  end of main object */
+    json_builder_end_object(builder);   /*  end of object: layers */
+    json_builder_end_object(builder);   /*  end of object: main */
 
     g_autoptr(JsonNode) root = json_builder_get_root(builder);
     g_autoptr(JsonGenerator) gen = json_generator_new();
