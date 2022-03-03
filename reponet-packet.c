@@ -39,20 +39,20 @@ static int (*analyze_protocols[])(const u_char *bytes) = {
     [ETHERTYPE_LOOPBACK]    dummy_call
 };
 
-Packetptr allocate_packet()
+packet_t *allocate_packet()
 {
-    Packetptr pktptr;
-    pktptr = (Packetptr)malloc(sizeof(Packet));
+    packet_t *pktptr;
+    pktptr = (packet_t *)malloc(sizeof(packet_t));
     if (!pktptr)
         return NULL;
-    memset(pktptr, 0, sizeof(Packet));
+    memset(pktptr, 0, sizeof(packet_t));
     return pktptr;
 }
 
 static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
     uint16_t type;
-    EthernetPtr ethp = ethernet_extract(bytes);
+    ethernet_t *ethp = ethernet_extract(bytes);
     if (!ethp) {
         fprintf(stderr, "ethernet_extract failed");
         return 0;
@@ -81,9 +81,9 @@ static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
     return type;
 }
 
-Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
+packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 {
-    Packetptr pktptr;
+    packet_t *pktptr;
     pktptr = allocate_packet();
     if (!pktptr) {
         perror("allocate_packet");

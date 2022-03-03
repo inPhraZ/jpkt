@@ -20,17 +20,17 @@ typedef struct __reponet_packet {
     size_t  len;                                /*  Length of message */
     char    *pktmsg;                            /* Packet info as JSON */
     STAILQ_ENTRY(__reponet_packet)   entries;
-} Packet, *Packetptr;
+} packet_t;
 
 /* Singly-linked Tail queue decleration for packet queue */
-STAILQ_HEAD(__packet_queue, Packet);
+STAILQ_HEAD(__packet_queue, packet_t);
 typedef struct __packet_queue PktQueue;
 
 /* Allocate memory for a Packet and initialize it */
-Packetptr   allocate_packet();
+packet_t   *allocate_packet();
 
 /* Analyze the packet */
-Packetptr   analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
+packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 
 /*  Free allocated memory and assign NULL to the pointer */
 #define     free_packet(pkt)    \

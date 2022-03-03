@@ -32,10 +32,10 @@ static char *ethernet_type_ids[] = {
 };
 
 /*  Allocate memory for Ethernet */ 
-static EthernetPtr  ethernet_init()
+static ethernet_t  *ethernet_init()
 {
-    EthernetPtr ethptr = (EthernetPtr)malloc(sizeof(Ethernet));
-    memset(ethptr, 0, sizeof(Ethernet));
+    ethernet_t *ethptr = (ethernet_t *)malloc(sizeof(ethernet_t));
+    memset(ethptr, 0, sizeof(ethernet_t));
     return ethptr;
 }
 
@@ -72,10 +72,10 @@ static char *ethernet_get_dhost(struct ether_header *eh)
     return host;
 }
 
-EthernetPtr ethernet_extract(const u_char *bytes)
+ethernet_t *ethernet_extract(const u_char *bytes)
 {
     struct ether_header *eh;
-    EthernetPtr         ethp;
+    ethernet_t          *ethp;
 
     if (!bytes)
         return NULL;

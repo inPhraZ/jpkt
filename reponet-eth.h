@@ -17,11 +17,11 @@ typedef struct __reponet_ethernet {
     char        *dhost_str;
     char        *shost_str;
     char        *type_str;
-} Ethernet, *EthernetPtr;
+} ethernet_t;
 
 /*  Allocate memory for Ethernet and
  *  extract data from bytes */
-EthernetPtr     ethernet_extract(const u_char *bytes);
+ethernet_t     *ethernet_extract(const u_char *bytes);
 
 /*  Free allocated memory and assign NULL to the pointer */
 #define     ethernet_free(ethp)      \
