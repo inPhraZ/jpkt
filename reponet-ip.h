@@ -17,6 +17,8 @@
 #define IPIDLEN         7
 #define IPFLAGLEN       4
 #define IPOFFLEN        2
+#define IPTTLLEN        4
+#define IPSUMLEN        7
 #define IPADDRLEN       16
 
 typedef struct __reponet_ip {
@@ -27,6 +29,9 @@ typedef struct __reponet_ip {
     char id[IPIDLEN];
     char flags[IPFLAGLEN];
     char off[IPOFFLEN];
+    char ttl[IPTTLLEN];
+    char protocol[IPPTOTOLEN];
+    char checksum[IPSUMLEN];
     char saddr[IPADDRLEN];
     char daddr[IPADDRLEN]
 } ip_t;
