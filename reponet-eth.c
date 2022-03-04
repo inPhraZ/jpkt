@@ -32,7 +32,7 @@ static char *ethernet_type_ids[] = {
 };
 
 /*  Allocate memory for Ethernet */ 
-static ethernet_t  *ethernet_init()
+static ethernet_t  *ethernet_alloc()
 {
     ethernet_t *ethptr = (ethernet_t *)malloc(sizeof(ethernet_t));
     memset(ethptr, 0, sizeof(ethernet_t));
@@ -80,7 +80,7 @@ ethernet_t *ethernet_extract(const u_char *bytes)
     if (!bytes)
         return NULL;
 
-    ethp = ethernet_init();
+    ethp = ethernet_alloc();
     if (!ethp) {
         perror("allocate Ethernet");
         return NULL;
