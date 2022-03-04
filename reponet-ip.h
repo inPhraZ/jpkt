@@ -36,4 +36,9 @@ typedef struct __reponet_ip {
     char daddr[IPADDRLEN]
 } ip_t;
 
+ip_t *ip_extract(const u_char *bytes);
+
+#define ip_free(ipptr)      \
+    do { free(ipptr); ipptr = NULL; } while(0)
+
 #endif      /*  __REPONET_IP_H_ */
