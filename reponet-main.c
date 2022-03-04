@@ -23,7 +23,7 @@ void callback(u_char *user, const struct pcap_pkthdr *h,
     /*-----------------------------------------------------------------------------
      * TODO: add to queue
      *-----------------------------------------------------------------------------*/
-    free_packet(pktptr);
+    packet_free(pktptr);
 }
 
 int main()

@@ -26,14 +26,11 @@ typedef struct __reponet_packet {
 STAILQ_HEAD(__packet_queue, packet_t);
 typedef struct __packet_queue PktQueue;
 
-/* Allocate memory for a Packet and initialize it */
-packet_t   *allocate_packet();
-
 /* Analyze the packet */
 packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 
 /*  Free allocated memory and assign NULL to the pointer */
-#define     free_packet(pkt)    \
+#define     packet_free(pkt)    \
     do { free(pkt->pktmsg); free(pkt); pkt = NULL; } while(0)
 
 #endif  /*  __REPONET_PACKET_H_ */

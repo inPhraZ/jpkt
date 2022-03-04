@@ -25,7 +25,7 @@ static int dummy_call(const u_char *bytes)
     return 0;
 }
 
-static int (*analyze_protocols[])(const u_char *bytes) = {
+static int (*ethertype_protocols[])(const u_char *bytes) = {
     [ETHERTYPE_PUP]         dummy_call,
     [ETHERTYPE_SPRITE]      dummy_call,
     [ETHERTYPE_IP]          dummy_call,
@@ -39,7 +39,7 @@ static int (*analyze_protocols[])(const u_char *bytes) = {
     [ETHERTYPE_LOOPBACK]    dummy_call
 };
 
-packet_t *allocate_packet()
+static packet_t *packet_alloc()
 {
     packet_t *pktptr;
     pktptr = (packet_t *)malloc(sizeof(packet_t));
@@ -49,7 +49,7 @@ packet_t *allocate_packet()
     return pktptr;
 }
 
-static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
+static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
     uint16_t type;
     ethernet_t *ethp = ethernet_extract(bytes);
@@ -84,7 +84,7 @@ static uint16_t  analyze_packet_eth(JsonBuilder *builder, const u_char *bytes)
 packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 {
     packet_t *pktptr;
-    pktptr = allocate_packet();
+    pktptr = packet_alloc();
     if (!pktptr) {
         perror("allocate_packet");
         return NULL;
@@ -97,9 +97,9 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     json_builder_begin_object(builder); /*  begin object: layers */
 
     /*  ethernet header */
-    uint16_t type = analyze_packet_eth(builder, bytes);
+    uint16_t type = packet_eth(builder, bytes);
     if (type == 0) {
-        free_packet(pktptr);
+        packet_free(pktptr);
         json_builder_reset(builder);
         return NULL;
     }
@@ -107,7 +107,7 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     /* Skip ethernet header */
     u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
-    analyze_protocols[type](tmp_bytes);
+    ethertype_protocols[type](tmp_bytes);
 
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
