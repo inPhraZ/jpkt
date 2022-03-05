@@ -21,19 +21,20 @@
 #include "reponet-eth.h"
 #include "reponet-ip.h"
 
-static int dummy_call(const u_char *bytes)
+static int dummy_call(JsonBuilder *builder, const u_char *bytes)
 {
     return 0;
 }
 
-static int packet_ip(const u_char *bytes)
+static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 {
     ip_t *ipptr = ip_extract(bytes);
     free(ipptr);
     return 0;
 }
 
-static int (*ethertype_protocols[])(const u_char *bytes) = {
+static int (*ethertype_protocols[])(JsonBuilder *builder,
+        const u_char *bytes) = {
     [ETHERTYPE_PUP]         dummy_call,
     [ETHERTYPE_SPRITE]      dummy_call,
     [ETHERTYPE_IP]          packet_ip,
@@ -115,7 +116,7 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     /* Skip ethernet header */
     u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
-    ethertype_protocols[type](tmp_bytes);
+    ethertype_protocols[type](builder, tmp_bytes);
 
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
