@@ -19,16 +19,24 @@
 
 #include "reponet-packet.h"
 #include "reponet-eth.h"
+#include "reponet-ip.h"
 
 static int dummy_call(const u_char *bytes)
 {
     return 0;
 }
 
+static int packet_ip(const u_char *bytes)
+{
+    ip_t *ipptr = ip_extract(bytes);
+    free(ipptr);
+    return 0;
+}
+
 static int (*ethertype_protocols[])(const u_char *bytes) = {
     [ETHERTYPE_PUP]         dummy_call,
     [ETHERTYPE_SPRITE]      dummy_call,
-    [ETHERTYPE_IP]          dummy_call,
+    [ETHERTYPE_IP]          packet_ip,
     [ETHERTYPE_ARP]         dummy_call,
     [ETHERTYPE_REVARP]      dummy_call,
     [ETHERTYPE_AT]          dummy_call,
