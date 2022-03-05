@@ -28,8 +28,70 @@ static int dummy_call(JsonBuilder *builder, const u_char *bytes)
 
 static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 {
-    ip_t *ipptr = ip_extract(bytes);
+    ip_t *ipptr;
+    if (!builder || !bytes)
+        return 1;
+
+    ipptr = ip_extract(bytes);
+
+    json_builder_set_member_name(builder, "ip");    /*  begin object: ip */
+    json_builder_begin_object(builder);
+
+    /* ip.version  */
+    json_builder_set_member_name(builder, "ip.version");
+    json_builder_add_string_value(builder, ipptr->version);
+
+    /* ip.hdrlen  */
+    json_builder_set_member_name(builder, "ip.hdrlen");
+    json_builder_add_string_value(builder, ipptr->hlen);
+
+    /* ip.tos  */
+    json_builder_set_member_name(builder, "ip.tos");
+    json_builder_add_string_value(builder, ipptr->tos);
+
+    /* ip.len  */
+    json_builder_set_member_name(builder, "ip.len");
+    json_builder_add_string_value(builder, ipptr->tlen);
+
+    /* ip.id  */
+    json_builder_set_member_name(builder, "ip.id");
+    json_builder_add_string_value(builder, ipptr->id);
+
+    /* ip.flags  */
+    json_builder_set_member_name(builder, "ip.flags");
+    json_builder_add_string_value(builder, ipptr->flags);
+
+    /* ip.off  */
+    json_builder_set_member_name(builder, "ip.off");
+    json_builder_add_string_value(builder, ipptr->off);
+
+    /* ip.ttl  */
+    json_builder_set_member_name(builder, "ip.ttl");
+    json_builder_add_string_value(builder, ipptr->ttl);
+
+    /* ip.protocol  */
+    json_builder_set_member_name(builder, "ip.protocol");
+    json_builder_add_string_value(builder, ipptr->protocol);
+
+    /* ip.shecksum  */
+    json_builder_set_member_name(builder, "ip.checksum");
+    json_builder_add_string_value(builder, ipptr->checksum);
+
+    /* ip.src  */
+    json_builder_set_member_name(builder, "ip.src");
+    json_builder_add_string_value(builder, ipptr->saddr);
+
+    /* ip.dst  */
+    json_builder_set_member_name(builder, "ip.dst");
+    json_builder_add_string_value(builder, ipptr->daddr);
+
+    json_builder_end_object(builder);               /*  end of object: ip */
+
     free(ipptr);
+
+    /*-----------------------------------------------------------------------------
+     * TODO: analyze upper protocol (ip.protocol) 
+     *-----------------------------------------------------------------------------*/
     return 0;
 }
 
