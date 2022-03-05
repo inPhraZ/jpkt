@@ -144,10 +144,10 @@ static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
     json_builder_set_member_name(builder, "eth.type");
     json_builder_add_string_value(builder, ethp->type_str);
 
+    json_builder_end_object(builder);   /*  end of object: eth */
+
     type = ethp->type;
     ethernet_free(ethp);
-
-    json_builder_end_object(builder);   /*  end of object: eth */
 
     return type;
 }
