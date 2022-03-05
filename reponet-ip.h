@@ -16,7 +16,7 @@
 #define IPTOTALLEN      6
 #define IPIDLEN         7
 #define IPFLAGLEN       4
-#define IPOFFLEN        2
+#define IPOFFLEN        7
 #define IPTTLLEN        4
 #define IPPROTOLEN      4
 #define IPSUMLEN        7
