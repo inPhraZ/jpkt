@@ -62,6 +62,8 @@ ip_t *ip_extract(const u_char *bytes)
     memset(ipptr, 0, sizeof(ip_t));
     ip_header = (struct ip*)(bytes);
 
+    ipptr->ip_p = ip_header->ip_p;
+
     snprintf(ipptr->version, IPVERSIONLEN,
             "%d", ip_header->ip_v);
     snprintf(ipptr->hlen, IPHDRLEN,
