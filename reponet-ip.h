@@ -18,7 +18,7 @@
 #define IPFLAGLEN       4
 #define IPOFFLEN        7
 #define IPTTLLEN        4
-#define IPPROTOLEN      4
+#define IPPROTOLEN      9
 #define IPSUMLEN        7
 #define IPADDRLEN       16
 
