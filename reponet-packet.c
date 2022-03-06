@@ -145,6 +145,7 @@ static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
 /*  analyze raw bytes to extract ip header */
 static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 {
+    uint8_t ip_p;
     ip_t *ipptr;
     if (!builder || !bytes)
         return 1;
@@ -204,6 +205,7 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 
     json_builder_end_object(builder);               /*  end of object: ip */
 
+    ip_p = ipptr->ip_p;
     free(ipptr);
 
     /*-----------------------------------------------------------------------------
