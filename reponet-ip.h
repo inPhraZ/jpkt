@@ -23,18 +23,19 @@
 #define IPADDRLEN       16
 
 typedef struct __reponet_ip {
-    char version[IPVERSIONLEN];
-    char hlen[IPHDRLEN];
-    char tos[IPTOSLEN];
-    char tlen[IPTOTALLEN];
-    char id[IPIDLEN];
-    char flags[IPFLAGLEN];
-    char off[IPOFFLEN];
-    char ttl[IPTTLLEN];
-    char protocol[IPPROTOLEN];
-    char checksum[IPSUMLEN];
-    char saddr[IPADDRLEN];
-    char daddr[IPADDRLEN];
+    uint8_t ip_p;
+    char    version[IPVERSIONLEN];
+    char    hlen[IPHDRLEN];
+    char    tos[IPTOSLEN];
+    char    tlen[IPTOTALLEN];
+    char    id[IPIDLEN];
+    char    flags[IPFLAGLEN];
+    char    off[IPOFFLEN];
+    char    ttl[IPTTLLEN];
+    char    protocol[IPPROTOLEN];
+    char    checksum[IPSUMLEN];
+    char    saddr[IPADDRLEN];
+    char    daddr[IPADDRLEN];
 } ip_t;
 
 ip_t *ip_extract(const u_char *bytes);
