@@ -19,10 +19,12 @@
 
 #include "reponet-packet.h"
 #include "reponet-eth.h"
+#include "reponet-arp.h"
 #include "reponet-ip.h"
 
 /*  prototypes for packet routines */
 static uint16_t packet_eth(JsonBuilder *builder, const u_char *bytes);
+static int      packet_arp(JsonBuilder *builder, const u_char *bytes);
 static int      packet_ip(JsonBuilder *builder, const u_char *bytes);
 
 /*  dummy function for protocols that have not yet been supported */
@@ -39,7 +41,7 @@ static int (*ethertype_protocols[])(JsonBuilder *builder,
     [ETHERTYPE_PUP]         dummy_call,
     [ETHERTYPE_SPRITE]      dummy_call,
     [ETHERTYPE_IP]          packet_ip,
-    [ETHERTYPE_ARP]         dummy_call,
+    [ETHERTYPE_ARP]         packet_arp,
     [ETHERTYPE_REVARP]      dummy_call,
     [ETHERTYPE_AT]          dummy_call,
     [ETHERTYPE_AARP]        dummy_call,
@@ -140,6 +142,58 @@ static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
     ethernet_free(ethp);
 
     return type;
+}
+
+static int  packet_arp(JsonBuilder *builder, const u_char *bytes)
+{
+    arp_t *arpptr = arp_extract(bytes);
+    if (!arpptr)
+        return 1;
+
+    json_builder_set_member_name(builder, "arp");   /*  begin object: arp */
+    json_builder_begin_object(builder);
+
+    /* arp.hw.type  */
+    json_builder_set_member_name(builder, "arp.hw.type");
+    json_builder_add_string_value(builder, arpptr->hrd);
+
+    /* arp.proto.type  */
+    json_builder_set_member_name(builder, "arp.proto.type");
+    json_builder_add_string_value(builder, arpptr->pro);
+
+    /* arp.hw.size */
+    json_builder_set_member_name(builder, "arp.hw.size");
+    json_builder_add_string_value(builder, arpptr->hln);
+
+    /* arp.proto.size */
+    json_builder_set_member_name(builder, "arp.proto.size");
+    json_builder_add_string_value(builder, arpptr->pln);
+
+    /*  arp.opcode */
+    json_builder_set_member_name(builder, "arp.opcode");
+    json_builder_add_string_value(builder, arpptr->op);
+
+    /*  arp.src.mac */
+    json_builder_set_member_name(builder, "arp.src.mac");
+    json_builder_add_string_value(builder, arpptr->sha);
+
+    /*  arp.src.ip */
+    json_builder_set_member_name(builder, "arp.src.ip");
+    json_builder_add_string_value(builder, arpptr->sip);
+
+    /*  arp.dst.mac */
+    json_builder_set_member_name(builder, "arp.dst.mac");
+    json_builder_add_string_value(builder, arpptr->tha);
+
+    /*  arp.dst.ip */
+    json_builder_set_member_name(builder, "arp.dst.ip");
+    json_builder_add_string_value(builder, arpptr->tip);
+
+    json_builder_end_object(builder);   /*  end of object: arp */
+
+    arp_free(arpptr);
+
+    return 0;
 }
 
 /*  analyze raw bytes to extract ip header */
