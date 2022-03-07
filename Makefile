@@ -1,6 +1,7 @@
 OBJS = reponet-main.o	\
 	   reponet-packet.o	\
 	   reponet-eth.o	\
+	   reponet-arp.o	\
 	   reponet-ip.o
 
 LIBS = 	$(shell pkg-config --libs libpcap glib-2.0 json-glib-1.0)
@@ -18,6 +19,9 @@ reponet-packet.o: reponet-packet.c reponet-packet.h
 
 reponet-eth.o: reponet-eth.c reponet-eth.h
 	gcc -c reponet-eth.c $(INC)
+
+reponet-arp.o: reponet-arp.c reponet-arp.h
+	gcc -c reponet-arp.c $(INC)
 
 reponet-ip.o: reponet-ip.c reponet-ip.h
 	gcc -c reponet-ip.c $(INC)
