@@ -18,7 +18,7 @@
 
 /*  string of Ethernet protocol ID's */
 static char *ethernet_type_ids[] = {
-    [ETHERTYPE_PUP]         "IP",
+    [ETHERTYPE_PUP]         "PUP",
     [ETHERTYPE_SPRITE]      "SPRITE",
     [ETHERTYPE_IP]          "IPv4",
     [ETHERTYPE_ARP]         "ARP",
