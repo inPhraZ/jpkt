@@ -18,6 +18,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <arpa/inet.h>
 #include <netinet/ether.h>
 
 #include "reponet-arp.h"
@@ -51,3 +53,44 @@ static const char *arp_protocol_opcodes[] = {
     [ARPOP_InREPLY]     "InARP reply",
     [ARPOP_NAK]         "NAK"
 };
+
+arp_t *arp_extract(const u_char *bytes)
+{
+    arp_t       *arpptr;
+    arphdr_t    *arphdr;
+
+    if (!bytes)
+        return NULL;
+
+    arpptr = (arp_t *)malloc(sizeof(arp_t));
+    if (!arpptr)
+        return NULL;
+
+    memset(arpptr, 0, sizeof(arp_t));
+
+    arphdr = (arphdr_t *)bytes;
+
+    uint16_t hrd = htons(arphdr->ar_hrd);
+    uint16_t op = htons(arphdr->ar_op);
+
+    snprintf(arpptr->hrd, ARPHRDLEN,
+            "%s", arp_hardware_ids[hrd]);
+    snprintf(arpptr->pro, ARPPROLEN,
+            "0x%x", htons(arphdr->ar_pro));
+    snprintf(arpptr->hln, ARPHLNLEN,
+            "%d", arphdr->ar_hln);
+    snprintf(arpptr->pln, ARPPLNLEN,
+            "%d", arphdr->ar_pln);
+    snprintf(arpptr->op, ARPOPLEN,
+            "%s", arp_protocol_opcodes[op]);
+    snprintf(arpptr->sha, ARPHALEN,
+            "%s", ether_ntoa(&arphdr->ar_sha));
+    snprintf(arpptr->sip, ARPIPLEN,
+            "%s", inet_ntoa(arphdr->ar_sip));
+    snprintf(arpptr->tha, ARPHALEN,
+            "%s", ether_ntoa(&arphdr->ar_tha));
+    snprintf(arpptr->tip, ARPIPLEN,
+            "%s", inet_ntoa(arphdr->ar_tip));
+
+    return arpptr;
+}
