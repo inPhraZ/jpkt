@@ -17,7 +17,7 @@
 #include "reponet-eth.h"
 
 /*  string of Ethernet protocol ID's */
-static char *ethernet_type_ids[] = {
+static const char *ethernet_type_ids[] = {
     [ETHERTYPE_PUP]         "PUP",
     [ETHERTYPE_SPRITE]      "SPRITE",
     [ETHERTYPE_IP]          "IPv4",
