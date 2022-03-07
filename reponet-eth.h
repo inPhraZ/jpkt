@@ -12,6 +12,7 @@
 
 #include <stdint.h>
 
+/*  Ethernet header */
 typedef struct __reponet_ethernet {
     uint16_t    type;
     char        *dhost_str;

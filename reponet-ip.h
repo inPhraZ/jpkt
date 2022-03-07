@@ -22,6 +22,7 @@
 #define IPSUMLEN        7
 #define IPADDRLEN       16
 
+/*  IP header */
 typedef struct __reponet_ip {
     uint8_t ip_p;
     char    version[IPVERSIONLEN];
@@ -38,8 +39,10 @@ typedef struct __reponet_ip {
     char    daddr[IPADDRLEN];
 } ip_t;
 
+/*  Allocate memory for ip header and extract data from bytes */
 ip_t *ip_extract(const u_char *bytes);
 
+/*  Free allocated memory and assign NULL to ipptr */
 #define ip_free(ipptr)      \
     do { free(ipptr); ipptr = NULL; } while(0)
 
