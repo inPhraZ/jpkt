@@ -14,7 +14,7 @@
 #include <netinet/in.h>
 #include <net/ethernet.h>
 
-#define     ARPHRDLEN   6
+#define     ARPHRDLEN   11
 #define     ARPPROLEN   6
 #define     ARPHLNLEN   4
 #define     ARPPLNLEN   4
