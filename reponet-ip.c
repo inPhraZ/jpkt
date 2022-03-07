@@ -16,7 +16,8 @@
 
 #include "reponet-ip.h"
 
-static const char *ip_protocol_ids[] = {
+/* IP protocol numbers */
+static const char *ip_protocol_nums[] = {
     [IPPROTO_IP]        "IP",
     [IPPROTO_ICMP]      "ICMP",
     [IPPROTO_IGMP]      "IGMP",
@@ -89,7 +90,7 @@ ip_t *ip_extract(const u_char *bytes)
     snprintf(ipptr->ttl, IPTTLLEN,
             "%d", ip_header->ip_ttl);
     snprintf(ipptr->protocol, IPPROTOLEN,
-            "%s", ip_protocol_ids[ip_header->ip_p]);
+            "%s", ip_protocol_nums[ip_header->ip_p]);
     snprintf(ipptr->checksum, IPSUMLEN,
             "0x%x", ntohs(ip_header->ip_sum));
     snprintf(ipptr->saddr, IPADDRLEN,
