@@ -40,3 +40,14 @@ static const char *arp_hardware_ids[] = {
     [ARPHRD_EUI64]      "EUI-64",
     [ARPHRD_INFINIBAND] "Infiniband"
 };
+
+/*  ARP protocol opcodes. */
+static const char *arp_protocol_opcodes[] = {
+    [ARPOP_REQUEST]     "request",
+    [ARPOP_REPLY]       "reply",
+    [ARPOP_RREQUEST]    "RARP request",
+    [ARPOP_RREPLY]      "RARP reply",
+    [ARPOP_InREQUEST]   "InARP request",
+    [ARPOP_InREPLY]     "InARP reply",
+    [ARPOP_NAK]         "NAK"
+};
