@@ -22,6 +22,9 @@
 #define     ARPHALEN    18
 #define     ARPIPLEN    16
 
+/*  ARP header
+ *  ARP packets are variable in size
+ *  this structure defines the fixed-length for ARPHRD_ETHER hardware */
 typedef struct __reponet_arphdr {
     uint16_t            ar_hrd;
     uint16_t            ar_pro;
@@ -34,6 +37,7 @@ typedef struct __reponet_arphdr {
     struct  in_addr     ar_tip;
 } __attribute__ ((__packed__)) arphdr_t;
 
+/*  ARP header data as string values */
 typedef struct __reponet_arp {
     char    hrd[ARPHRDLEN];
     char    pro[ARPPROLEN];
@@ -46,8 +50,12 @@ typedef struct __reponet_arp {
     char    tip[ARPIPLEN];
 } arp_t;
 
-#if 0
+/*  Allocate memory for arp_t and 
+ *  extract arp header from bytes */
 arp_t   *arp_extract(const u_char *bytes);
-#endif
+
+/*  Free allocated memory and assign NULL to the arpptr */
+#define     arp_free(arpptr)        \
+    do { free(arpptr); arpptr = NULL; } while(0)
 
 #endif      /*  __REPONET_ARP_H_ */
