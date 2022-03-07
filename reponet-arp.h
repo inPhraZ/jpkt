@@ -15,10 +15,10 @@
 #include <net/ethernet.h>
 
 #define     ARPHRDLEN   11
-#define     ARPPROLEN   6
+#define     ARPPROLEN   7
 #define     ARPHLNLEN   4
 #define     ARPPLNLEN   4
-#define     ARPOPLEN    6
+#define     ARPOPLEN    14
 #define     ARPHALEN    18
 #define     ARPIPLEN    16
 
