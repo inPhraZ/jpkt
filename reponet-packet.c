@@ -262,6 +262,7 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
     ip_p = ipptr->ip_p;
     free(ipptr);
 
+    ip_upper(builder, bytes, ip_p);
     /*-----------------------------------------------------------------------------
      * TODO: analyze upper protocol (ip.protocol) 
      *-----------------------------------------------------------------------------*/
