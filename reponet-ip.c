@@ -138,3 +138,17 @@ ip_t *ip_extract(const u_char *bytes)
 
     return ipptr;
 }
+
+int ip_upper(JsonBuilder *builder, const u_char *bytes,
+        const uint8_t ip_p)
+{
+    u_char *pbytes;
+    if (!builder || !bytes)
+        return 1;
+
+    pbytes = (u_char *)(bytes + sizeof(struct ip));
+
+    ip_upper_protocols[ip_p](builder, pbytes);
+
+    return 0;
+}
