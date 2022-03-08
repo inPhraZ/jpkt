@@ -20,7 +20,7 @@
 #define     ARPPLNLEN   4
 #define     ARPOPLEN    14
 #define     ARPHALEN    18
-#define     ARPIPLEN    16
+#define     ARPIPLEN    INET_ADDRSTRLEN
 
 /*  ARP header
  *  ARP packets are variable in size

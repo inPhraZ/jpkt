@@ -22,7 +22,7 @@
 #define IPTTLLEN        4
 #define IPPROTOLEN      9
 #define IPSUMLEN        7
-#define IPADDRLEN       16
+#define IPADDRLEN       INET_ADDRSTRLEN
 
 /*  IP header */
 typedef struct __reponet_ip {
