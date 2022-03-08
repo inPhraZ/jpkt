@@ -28,7 +28,7 @@ static int      packet_arp(JsonBuilder *builder, const u_char *bytes);
 static int      packet_ip(JsonBuilder *builder, const u_char *bytes);
 
 /*  dummy function for protocols that have not yet been supported */
-static int dummy_call(JsonBuilder *builder, const u_char *bytes)
+static int packet_dummy(JsonBuilder *builder, const u_char *bytes)
 {
     return 0;
 }
@@ -38,17 +38,17 @@ static int dummy_call(JsonBuilder *builder, const u_char *bytes)
  */
 static int (*ethertype_protocols[])(JsonBuilder *builder,
         const u_char *bytes) = {
-    [ETHERTYPE_PUP]         dummy_call,
-    [ETHERTYPE_SPRITE]      dummy_call,
+    [ETHERTYPE_PUP]         packet_dummy,
+    [ETHERTYPE_SPRITE]      packet_dummy,
     [ETHERTYPE_IP]          packet_ip,
     [ETHERTYPE_ARP]         packet_arp,
-    [ETHERTYPE_REVARP]      dummy_call,
-    [ETHERTYPE_AT]          dummy_call,
-    [ETHERTYPE_AARP]        dummy_call,
-    [ETHERTYPE_VLAN]        dummy_call,
-    [ETHERTYPE_IPX]         dummy_call,
-    [ETHERTYPE_IPV6]        dummy_call,
-    [ETHERTYPE_LOOPBACK]    dummy_call
+    [ETHERTYPE_REVARP]      packet_dummy,
+    [ETHERTYPE_AT]          packet_dummy,
+    [ETHERTYPE_AARP]        packet_dummy,
+    [ETHERTYPE_VLAN]        packet_dummy,
+    [ETHERTYPE_IPX]         packet_dummy,
+    [ETHERTYPE_IPV6]        packet_dummy,
+    [ETHERTYPE_LOOPBACK]    packet_dummy
 };
 
 static packet_t *packet_alloc()
