@@ -10,6 +10,8 @@
 #ifndef     __REPONET_IP_H_
 #define     __REPONET_IP_H_ 1
 
+#include <json-glib/json-glib.h>
+
 #define IPVERSIONLEN    4
 #define IPHDRLEN        3
 #define IPTOSLEN        5
@@ -41,6 +43,10 @@ typedef struct __reponet_ip {
 
 /*  Allocate memory for ip header and extract data from bytes */
 ip_t *ip_extract(const u_char *bytes);
+
+/*  Analyze Upper layer of IPv4 */
+int ip_upper(JsonBuilder *builder, const u_char *bytes,
+        const uint8_t ip_p);
 
 /*  Free allocated memory and assign NULL to ipptr */
 #define ip_free(ipptr)      \
