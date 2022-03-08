@@ -16,6 +16,12 @@
 
 #include "reponet-ip.h"
 
+/*  dummy finction for protocols that have not yet been supported */
+static int ip_dummy(JsonBuilder *builder, const u_char *bytes)
+{
+    return 0;
+}
+
 /* IP protocol numbers */
 static const char *ip_protocol_nums[] = {
     [IPPROTO_IP]        "IP",
@@ -45,6 +51,38 @@ static const char *ip_protocol_nums[] = {
     [IPPROTO_ETHERNET]  "ETHERNET",
     [IPPROTO_RAW]       "RAW",
     [IPPROTO_MPTCP]     "MPTCP"
+};
+
+/*  function pointers to analyze upper protocols */
+static int (*ip_upper_protocols[])(JsonBuilder *builder,
+        const u_char *bytes) = {
+    [IPPROTO_IP]        ip_dummy,
+    [IPPROTO_ICMP]      ip_dummy,
+    [IPPROTO_IGMP]      ip_dummy,
+    [IPPROTO_IPIP]      ip_dummy,
+    [IPPROTO_TCP]       ip_dummy,
+    [IPPROTO_EGP]       ip_dummy,
+    [IPPROTO_PUP]       ip_dummy,
+    [IPPROTO_UDP]       ip_dummy,
+    [IPPROTO_IDP]       ip_dummy,
+    [IPPROTO_TP]        ip_dummy,
+    [IPPROTO_DCCP]      ip_dummy,
+    [IPPROTO_IPV6]      ip_dummy,
+    [IPPROTO_RSVP]      ip_dummy,
+    [IPPROTO_GRE]       ip_dummy,
+    [IPPROTO_ESP]       ip_dummy,
+    [IPPROTO_AH]        ip_dummy,
+    [IPPROTO_MTP]       ip_dummy,
+    [IPPROTO_BEETPH]    ip_dummy,
+    [IPPROTO_ENCAP]     ip_dummy,
+    [IPPROTO_PIM]       ip_dummy,
+    [IPPROTO_COMP]      ip_dummy,
+    [IPPROTO_SCTP]      ip_dummy,
+    [IPPROTO_UDPLITE]   ip_dummy,
+    [IPPROTO_MPLS]      ip_dummy,
+    [IPPROTO_ETHERNET]  ip_dummy,
+    [IPPROTO_RAW]       ip_dummy,
+    [IPPROTO_MPTCP]     ip_dummy
 };
 
 ip_t *ip_extract(const u_char *bytes)
