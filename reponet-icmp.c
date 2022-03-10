@@ -7,6 +7,10 @@
  * =====================================================================================
  */
 
+#include <stdlib.h>
+#include <stddef.h>
+#include <netinet/ip_icmp.h>
+
 #include "reponet-icmp.h"
 
 static const char *icmp_types[] = {
