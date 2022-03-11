@@ -101,18 +101,11 @@ ip_t *ip_extract(const u_char *bytes)
     memset(ipptr, 0, sizeof(ip_t));
     ip_header = (struct ip*)(bytes);
 
+    ipptr->ip_v = ip_header->ip_v;
+    ipptr->ip_hl = ip_header->ip_hl * 4;
+    ipptr->ip_ttl = ip_header->ip_ttl;
     ipptr->ip_p = ip_header->ip_p;
-
-    snprintf(ipptr->version, IPVERSIONLEN,
-            "%d", ip_header->ip_v);
-    snprintf(ipptr->hlen, IPHDRLEN,
-            "%d", ip_header->ip_hl * 4);
-    snprintf(ipptr->tos, IPTOSLEN,
-            "0x%x", ip_header->ip_tos);
-    snprintf(ipptr->tlen, IPTOTALLEN,
-            "%d", ntohs(ip_header->ip_len));
-    snprintf(ipptr->id, IPIDLEN,
-            "0x%x", ntohs(ip_header->ip_id));
+    ipptr->ip_len = ntohs(ip_header->ip_len);
 
     /* 
      *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -125,8 +118,10 @@ ip_t *ip_extract(const u_char *bytes)
     snprintf(ipptr->off, IPOFFLEN,
             "0x%x", (fl_off & IP_OFFMASK));
 
-    snprintf(ipptr->ttl, IPTTLLEN,
-            "%d", ip_header->ip_ttl);
+    snprintf(ipptr->tos, IPTOSLEN,
+            "0x%x", ip_header->ip_tos);
+    snprintf(ipptr->id, IPIDLEN,
+            "0x%x", ntohs(ip_header->ip_id));
     snprintf(ipptr->protocol, IPPROTOLEN,
             "%s", ip_protocol_nums[ip_header->ip_p]);
     snprintf(ipptr->checksum, IPSUMLEN,
