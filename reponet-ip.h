@@ -24,17 +24,17 @@
 typedef struct __reponet_ip {
     uint8_t     ip_v;
     uint8_t     ip_hl;
+    char        ip_tos[IPTOSLEN];
+    uint16_t    ip_len;
+    char        ip_id[IPIDLEN];
+    char        ip_flags[IPFLAGLEN];
+    char        ip_off[IPOFFLEN];
     uint8_t     ip_ttl;
     uint8_t     ip_p;
-    uint16_t    ip_len;
-    char        tos[IPTOSLEN];
-    char        id[IPIDLEN];
-    char        flags[IPFLAGLEN];
-    char        off[IPOFFLEN];
-    char        protocol[IPPROTOLEN];
-    char        checksum[IPSUMLEN];
-    char        saddr[IPADDRLEN];
-    char        daddr[IPADDRLEN];
+    char        ip_protocol[IPPROTOLEN];
+    char        ip_sum[IPSUMLEN];
+    char        ip_src[IPADDRLEN];
+    char        ip_dst[IPADDRLEN];
 } ip_t;
 
 /*  Allocate memory for ip header and extract data from bytes */

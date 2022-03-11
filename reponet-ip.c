@@ -113,22 +113,22 @@ ip_t *ip_extract(const u_char *bytes)
      *  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      */
     fl_off = ntohs(ip_header->ip_off);
-    snprintf(ipptr->flags, IPFLAGLEN,
+    snprintf(ipptr->ip_flags, IPFLAGLEN,
             "0x%x", (fl_off & (~IP_OFFMASK)) >> 13);
-    snprintf(ipptr->off, IPOFFLEN,
+    snprintf(ipptr->ip_off, IPOFFLEN,
             "0x%x", (fl_off & IP_OFFMASK));
 
-    snprintf(ipptr->tos, IPTOSLEN,
+    snprintf(ipptr->ip_tos, IPTOSLEN,
             "0x%x", ip_header->ip_tos);
-    snprintf(ipptr->id, IPIDLEN,
+    snprintf(ipptr->ip_id, IPIDLEN,
             "0x%x", ntohs(ip_header->ip_id));
-    snprintf(ipptr->protocol, IPPROTOLEN,
+    snprintf(ipptr->ip_protocol, IPPROTOLEN,
             "%s", ip_protocol_nums[ip_header->ip_p]);
-    snprintf(ipptr->checksum, IPSUMLEN,
+    snprintf(ipptr->ip_sum, IPSUMLEN,
             "0x%x", ntohs(ip_header->ip_sum));
-    snprintf(ipptr->saddr, IPADDRLEN,
+    snprintf(ipptr->ip_src, IPADDRLEN,
             "%s", inet_ntoa(ip_header->ip_src));
-    snprintf(ipptr->daddr, IPADDRLEN,
+    snprintf(ipptr->ip_dst, IPADDRLEN,
             "%s", inet_ntoa(ip_header->ip_dst));
 
     return ipptr;
