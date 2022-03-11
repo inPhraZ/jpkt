@@ -35,6 +35,8 @@ static const char *ethernet_type_ids[] = {
 static ethernet_t  *ethernet_alloc()
 {
     ethernet_t *ethptr = (ethernet_t *)malloc(sizeof(ethernet_t));
+    if (!ethptr)
+        return NULL;
     memset(ethptr, 0, sizeof(ethernet_t));
     return ethptr;
 }
@@ -81,10 +83,8 @@ ethernet_t *ethernet_extract(const u_char *bytes)
         return NULL;
 
     ethp = ethernet_alloc();
-    if (!ethp) {
-        perror("allocate Ethernet");
+    if (!ethp)
         return NULL;
-    }
 
     eh = (struct ether_header *)bytes;
     ethp->type = ntohs(eh->ether_type);
