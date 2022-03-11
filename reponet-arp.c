@@ -69,6 +69,16 @@ static const char *arp_protocol_opcodes[] = {
     [ARPOP_NAK]         "NAK"
 };
 
+static arp_t *arp_alloc()
+{
+    arp_t *arpptr = (arp_t *)malloc(sizeof(arp_t));
+    if (!arpptr)
+        return NULL;
+
+    memset(arpptr, 0, sizeof(arp_t));
+    return arpptr;
+}
+
 arp_t *arp_extract(const u_char *bytes)
 {
     arp_t       *arpptr;
@@ -77,11 +87,9 @@ arp_t *arp_extract(const u_char *bytes)
     if (!bytes)
         return NULL;
 
-    arpptr = (arp_t *)malloc(sizeof(arp_t));
+    arpptr = arp_alloc();
     if (!arpptr)
         return NULL;
-
-    memset(arpptr, 0, sizeof(arp_t));
 
     arphdr = (arphdr_t *)bytes;
 
