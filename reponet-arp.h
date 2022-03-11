@@ -35,17 +35,17 @@ typedef struct __reponet_arphdr {
     struct  in_addr     ar_tip;
 } __attribute__ ((__packed__)) arphdr_t;
 
-/*  ARP header data as string values */
+/*  ARP header (for json builder) */
 typedef struct __reponet_arp {
-    uint8_t     hln;
-    uint8_t     pln;
-    char        hrd[ARPHRDLEN];
-    char        op[ARPOPLEN];
-    char        pro[ARPPROLEN];
-    char        sha[ARPHALEN];
-    char        sip[ARPIPLEN];
-    char        tha[ARPHALEN];
-    char        tip[ARPIPLEN];
+    char        ar_hrd[ARPHRDLEN];
+    char        ar_pro[ARPPROLEN];
+    uint8_t     ar_hln;
+    uint8_t     ar_pln;
+    char        ar_op[ARPOPLEN];
+    char        ar_sha[ARPHALEN];
+    char        ar_sip[ARPIPLEN];
+    char        ar_tha[ARPHALEN];
+    char        ar_tip[ARPIPLEN];
 } arp_t;
 
 /*  Allocate memory for arp_t and 
