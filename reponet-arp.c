@@ -70,19 +70,17 @@ arp_t *arp_extract(const u_char *bytes)
 
     arphdr = (arphdr_t *)bytes;
 
-    uint16_t hrd = htons(arphdr->ar_hrd);
-    uint16_t op = htons(arphdr->ar_op);
+    arpptr->hln = arphdr->ar_hln;
+    arpptr->pln = arphdr->ar_pln;
+    arpptr->op = htons(arphdr->ar_op);
+    arpptr->hrd = htons(arphdr->ar_hrd);
 
-    snprintf(arpptr->hrd, ARPHRDLEN,
-            "%s", arp_hardware_ids[hrd]);
+    snprintf(arpptr->hrd_str, ARPHRDLEN,
+            "%s", arp_hardware_ids[arpptr->hrd]);
+    snprintf(arpptr->op_str, ARPOPLEN,
+            "%s", arp_protocol_opcodes[arpptr->op]);
     snprintf(arpptr->pro, ARPPROLEN,
             "0x%x", htons(arphdr->ar_pro));
-    snprintf(arpptr->hln, ARPHLNLEN,
-            "%d", arphdr->ar_hln);
-    snprintf(arpptr->pln, ARPPLNLEN,
-            "%d", arphdr->ar_pln);
-    snprintf(arpptr->op, ARPOPLEN,
-            "%s", arp_protocol_opcodes[op]);
     snprintf(arpptr->sha, ARPHALEN,
             "%s", ether_ntoa(&arphdr->ar_sha));
     snprintf(arpptr->sip, ARPIPLEN,

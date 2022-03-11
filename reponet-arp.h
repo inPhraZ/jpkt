@@ -16,8 +16,6 @@
 
 #define     ARPHRDLEN   11
 #define     ARPPROLEN   7
-#define     ARPHLNLEN   4
-#define     ARPPLNLEN   4
 #define     ARPOPLEN    14
 #define     ARPHALEN    18
 #define     ARPIPLEN    INET_ADDRSTRLEN
@@ -39,11 +37,13 @@ typedef struct __reponet_arphdr {
 
 /*  ARP header data as string values */
 typedef struct __reponet_arp {
-    char    hrd[ARPHRDLEN];
+    uint8_t     hln;
+    uint8_t     pln;
+    uint16_t    hrd;
+    uint16_t    op;
+    char    hrd_str[ARPHRDLEN];
+    char    op_str[ARPOPLEN];
     char    pro[ARPPROLEN];
-    char    hln[ARPHLNLEN];
-    char    pln[ARPPLNLEN];
-    char    op[ARPOPLEN];
     char    sha[ARPHALEN];
     char    sip[ARPIPLEN];
     char    tha[ARPHALEN];

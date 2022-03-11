@@ -155,7 +155,11 @@ static int  packet_arp(JsonBuilder *builder, const u_char *bytes)
 
     /* arp.hw.type  */
     json_builder_set_member_name(builder, "arp.hw.type");
-    json_builder_add_string_value(builder, arpptr->hrd);
+    json_builder_add_int_value(builder, arpptr->hrd);
+
+    /* arp.hw.type.str  */
+    json_builder_set_member_name(builder, "arp.hw.type.str");
+    json_builder_add_string_value(builder, arpptr->hrd_str);
 
     /* arp.proto.type  */
     json_builder_set_member_name(builder, "arp.proto.type");
@@ -163,15 +167,19 @@ static int  packet_arp(JsonBuilder *builder, const u_char *bytes)
 
     /* arp.hw.size */
     json_builder_set_member_name(builder, "arp.hw.size");
-    json_builder_add_string_value(builder, arpptr->hln);
+    json_builder_add_int_value(builder, arpptr->hln);
 
     /* arp.proto.size */
     json_builder_set_member_name(builder, "arp.proto.size");
-    json_builder_add_string_value(builder, arpptr->pln);
+    json_builder_add_int_value(builder, arpptr->pln);
 
     /*  arp.opcode */
     json_builder_set_member_name(builder, "arp.opcode");
-    json_builder_add_string_value(builder, arpptr->op);
+    json_builder_add_int_value(builder, arpptr->op);
+
+    /*  arp.opcode.str */
+    json_builder_set_member_name(builder, "arp.opcode.str");
+    json_builder_add_string_value(builder, arpptr->op_str);
 
     /*  arp.src.mac */
     json_builder_set_member_name(builder, "arp.src.mac");
