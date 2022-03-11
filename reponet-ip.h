@@ -12,33 +12,29 @@
 
 #include <json-glib/json-glib.h>
 
-#define IPVERSIONLEN    4
-#define IPHDRLEN        3
 #define IPTOSLEN        5
-#define IPTOTALLEN      6
 #define IPIDLEN         7
 #define IPFLAGLEN       4
 #define IPOFFLEN        7
-#define IPTTLLEN        4
 #define IPPROTOLEN      9
 #define IPSUMLEN        7
 #define IPADDRLEN       INET_ADDRSTRLEN
 
 /*  IP header */
 typedef struct __reponet_ip {
-    uint8_t ip_p;
-    char    version[IPVERSIONLEN];
-    char    hlen[IPHDRLEN];
-    char    tos[IPTOSLEN];
-    char    tlen[IPTOTALLEN];
-    char    id[IPIDLEN];
-    char    flags[IPFLAGLEN];
-    char    off[IPOFFLEN];
-    char    ttl[IPTTLLEN];
-    char    protocol[IPPROTOLEN];
-    char    checksum[IPSUMLEN];
-    char    saddr[IPADDRLEN];
-    char    daddr[IPADDRLEN];
+    uint8_t     ip_v;
+    uint8_t     ip_hl;
+    uint8_t     ip_ttl;
+    uint8_t     ip_p;
+    uint16_t    ip_len;
+    char        tos[IPTOSLEN];
+    char        id[IPIDLEN];
+    char        flags[IPFLAGLEN];
+    char        off[IPOFFLEN];
+    char        protocol[IPPROTOLEN];
+    char        checksum[IPSUMLEN];
+    char        saddr[IPADDRLEN];
+    char        daddr[IPADDRLEN];
 } ip_t;
 
 /*  Allocate memory for ip header and extract data from bytes */
