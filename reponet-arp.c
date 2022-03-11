@@ -24,6 +24,21 @@
 
 #include "reponet-arp.h"
 
+/*  ARP header
+ *  ARP packets are variable in size
+ *  this structure defines the fixed-length for ARPHRD_ETHER hardware */
+typedef struct __reponet_arphdr {
+    uint16_t            ar_hrd;
+    uint16_t            ar_pro;
+    uint8_t             ar_hln;
+    uint8_t             ar_pln;
+    uint16_t            ar_op;
+    struct  ether_addr  ar_sha;
+    struct  in_addr     ar_sip;
+    struct  ether_addr  ar_tha;
+    struct  in_addr     ar_tip;
+} __attribute__ ((__packed__)) arphdr_t;
+
 /*  ARP protocol hardware identifiers. */
 static const char *arp_hardware_ids[] = {
     [ARPHRD_NETROM]     "NetRom",

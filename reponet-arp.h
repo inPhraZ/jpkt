@@ -20,21 +20,6 @@
 #define     ARPHALEN    18
 #define     ARPIPLEN    INET_ADDRSTRLEN
 
-/*  ARP header
- *  ARP packets are variable in size
- *  this structure defines the fixed-length for ARPHRD_ETHER hardware */
-typedef struct __reponet_arphdr {
-    uint16_t            ar_hrd;
-    uint16_t            ar_pro;
-    uint8_t             ar_hln;
-    uint8_t             ar_pln;
-    uint16_t            ar_op;
-    struct  ether_addr  ar_sha;
-    struct  in_addr     ar_sip;
-    struct  ether_addr  ar_tha;
-    struct  in_addr     ar_tip;
-} __attribute__ ((__packed__)) arphdr_t;
-
 /*  ARP header (for json builder) */
 typedef struct __reponet_arp {
     char        ar_hrd[ARPHRDLEN];
