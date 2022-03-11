@@ -39,15 +39,13 @@ typedef struct __reponet_arphdr {
 typedef struct __reponet_arp {
     uint8_t     hln;
     uint8_t     pln;
-    uint16_t    hrd;
-    uint16_t    op;
-    char    hrd_str[ARPHRDLEN];
-    char    op_str[ARPOPLEN];
-    char    pro[ARPPROLEN];
-    char    sha[ARPHALEN];
-    char    sip[ARPIPLEN];
-    char    tha[ARPHALEN];
-    char    tip[ARPIPLEN];
+    char        hrd[ARPHRDLEN];
+    char        op[ARPOPLEN];
+    char        pro[ARPPROLEN];
+    char        sha[ARPHALEN];
+    char        sip[ARPIPLEN];
+    char        tha[ARPHALEN];
+    char        tip[ARPIPLEN];
 } arp_t;
 
 /*  Allocate memory for arp_t and 
