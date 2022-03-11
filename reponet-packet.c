@@ -211,11 +211,11 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 
     /* ip.version  */
     json_builder_set_member_name(builder, "ip.version");
-    json_builder_add_string_value(builder, ipptr->version);
+    json_builder_add_int_value(builder, ipptr->ip_v);
 
     /* ip.hdrlen  */
     json_builder_set_member_name(builder, "ip.hdrlen");
-    json_builder_add_string_value(builder, ipptr->hlen);
+    json_builder_add_int_value(builder, ipptr->ip_hl);
 
     /* ip.tos  */
     json_builder_set_member_name(builder, "ip.tos");
@@ -223,7 +223,7 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 
     /* ip.len  */
     json_builder_set_member_name(builder, "ip.len");
-    json_builder_add_string_value(builder, ipptr->tlen);
+    json_builder_add_int_value(builder, ipptr->ip_len);
 
     /* ip.id  */
     json_builder_set_member_name(builder, "ip.id");
@@ -239,10 +239,14 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 
     /* ip.ttl  */
     json_builder_set_member_name(builder, "ip.ttl");
-    json_builder_add_string_value(builder, ipptr->ttl);
+    json_builder_add_int_value(builder, ipptr->ip_ttl);
 
-    /* ip.protocol  */
+    /* ip.protocol */
     json_builder_set_member_name(builder, "ip.protocol");
+    json_builder_add_int_value(builder, ipptr->ip_p);
+
+    /* ip.protocol.str  */
+    json_builder_set_member_name(builder, "ip.protocol.str");
     json_builder_add_string_value(builder, ipptr->protocol);
 
     /* ip.shecksum  */
