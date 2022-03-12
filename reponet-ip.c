@@ -15,6 +15,9 @@
 #include <netinet/ip.h>
 
 #include "reponet-ip.h"
+#include "reponet-icmp.h"
+
+static int ip_icmp(JsonBuilder *builder, const u_char *bytes);
 
 /*  dummy finction for protocols that have not yet been supported */
 static int ip_dummy(JsonBuilder *builder, const u_char *bytes)
@@ -57,7 +60,7 @@ static const char *ip_protocol_nums[] = {
 static int (*ip_upper_protocols[])(JsonBuilder *builder,
         const u_char *bytes) = {
     [IPPROTO_IP]        ip_dummy,
-    [IPPROTO_ICMP]      ip_dummy,
+    [IPPROTO_ICMP]      ip_icmp,
     [IPPROTO_IGMP]      ip_dummy,
     [IPPROTO_IPIP]      ip_dummy,
     [IPPROTO_TCP]       ip_dummy,
@@ -145,5 +148,38 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 
     ip_upper_protocols[ip_p](builder, pbytes);
 
+    return 0;
+}
+
+static int ip_icmp(JsonBuilder *builder, const u_char *bytes)
+{
+    icmp_t *icmpptr = icmp_extract(bytes);
+
+    json_builder_set_member_name(builder, "icmp");  /*  begin object: icmp */
+    json_builder_begin_object(builder);
+
+    /*  icmp.type */
+    json_builder_set_member_name(builder, "icmp.type");
+    json_builder_add_int_value(builder, icmpptr->type);
+
+    /*  icmp.code */
+    json_builder_set_member_name(builder, "icmp.code");
+    json_builder_add_int_value(builder, icmpptr->code);
+
+    /*  icmp.type.str */
+    json_builder_set_member_name(builder, "icmp.type.str");
+    json_builder_add_string_value(builder, icmpptr->type_str);
+
+    /*  icmp.code.str */
+    json_builder_set_member_name(builder, "icmp.code.str");
+    json_builder_add_string_value(builder, icmpptr->code_str);
+
+    /*  icmp.checksum */
+    json_builder_set_member_name(builder, "icmp.checksum");
+    json_builder_add_string_value(builder, icmpptr->checksum);
+
+    json_builder_end_object(builder);   /*  end of object: icmp */
+
+    icmp_free(icmpptr);
     return 0;
 }
