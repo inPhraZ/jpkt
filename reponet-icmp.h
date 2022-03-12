@@ -13,8 +13,10 @@
 #define     ICMPSUMLEN  7
 
 typedef struct __reponet_icmp {
-    char    *type;
-    char    *code;
+    uint8_t type;
+    uint8_t code;
+    char    *type_str;
+    char    *code_str;
     char    checksum[ICMPSUMLEN];
 } icmp_t;
 
@@ -24,8 +26,8 @@ icmp_t  *icmp_extract(const u_char *bytes);
 /*  Free allocated memory and assign NULL to icmpptr */
 #define icmp_free(icmpptr)  \
     do {                    \
-        free(icmpptr->type);\
-        free(icmpptr->code);\
+        free(icmpptr->type_str);\
+        free(icmpptr->code_str);\
         free(icmpptr);      \
         icmpptr = NULL;     \
     } while(0)
