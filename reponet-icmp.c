@@ -8,6 +8,7 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
 #include <stddef.h>
 #include <netinet/ip_icmp.h>
 
@@ -60,6 +61,27 @@ static const char *icmp_time_exceeded_codes[] = {
     [ICMP_EXC_FRAGTIME]     "Fragment time exceeded"
 };
 
+static char *icmp_get_code(const uint8_t type, const uint8_t code)
+{
+    char *code_str = NULL;
+    switch (type) {
+        case ICMP_DEST_UNREACH:
+            code_str = strdup(icmp_unreach_codes[code]);
+            break;
+        case ICMP_REDIRECT:
+            code_str = strdup(icmp_redirect_codes[code]);
+            break;
+        case ICMP_TIME_EXCEEDED:
+            code_str = strdup(icmp_time_exceeded_codes[code]);
+            break;
+        default:
+            code_str = (char *)malloc(1);
+            memset(code_str, 0, 1);
+            break;
+    }
+    return code_str;
+}
+
 icmp_t *icmp_extract(const u_char *bytes)
 {
     icmp_t *icmpptr;
@@ -71,8 +93,20 @@ icmp_t *icmp_extract(const u_char *bytes)
     icmpptr = (icmp_t *)malloc(sizeof(icmp_t));
     if (!icmpptr)
         return NULL;
+    memset(icmpptr, 0, sizeof(icmp_t));
 
     icmp_header = (struct icmphdr *)bytes;
+
+    uint8_t type = icmp_header->type;
+    uint8_t code = icmp_header->code;
+
+    icmpptr->type = type;
+    icmpptr->code = code;
+    icmpptr->type_str = strdup(icmp_types[type]);
+    icmpptr->code_str = icmp_get_code(type, code);
+
+    snprintf(icmpptr->checksum, ICMPSUMLEN,
+            "0x%x", ntohs(icmp_header->checksum));
 
     return icmpptr;
 }
