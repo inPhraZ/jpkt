@@ -2,7 +2,8 @@ OBJS = reponet-main.o	\
 	   reponet-packet.o	\
 	   reponet-eth.o	\
 	   reponet-arp.o	\
-	   reponet-ip.o
+	   reponet-ip.o		\
+	   reponet-icmp.o
 
 LIBS = 	$(shell pkg-config --libs libpcap glib-2.0 json-glib-1.0)
 
@@ -25,5 +26,9 @@ reponet-arp.o: reponet-arp.c reponet-arp.h
 
 reponet-ip.o: reponet-ip.c reponet-ip.h
 	gcc -c reponet-ip.c $(INC)
+
+reponet-icmp.o: reponet-icmp.c reponet-icmp.h
+	gcc -c reponet-icmp.c $(INC)
+
 clean:
 	rm -rf ./*.o
