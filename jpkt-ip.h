@@ -42,7 +42,7 @@ ip_t *ip_extract(const u_char *bytes);
 
 /*  Analyze Upper layer of IPv4 */
 int ip_upper(JsonBuilder *builder, const u_char *bytes,
-        const uint8_t ip_p);
+        const uint8_t ip_p, const uint16_t len);
 
 /*  Free allocated memory and assign NULL to ipptr */
 #define ip_free(ipptr)      \

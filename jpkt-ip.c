@@ -17,10 +17,12 @@
 #include "jpkt-ip.h"
 #include "jpkt-icmp.h"
 
-static int ip_icmp(JsonBuilder *builder, const u_char *bytes);
+static int ip_icmp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len);
 
 /*  dummy finction for protocols that have not yet been supported */
-static int ip_dummy(JsonBuilder *builder, const u_char *bytes)
+static int ip_dummy(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len)
 {
     return 0;
 }
@@ -58,7 +60,7 @@ static const char *ip_protocol_nums[] = {
 
 /*  function pointers to analyze upper protocols */
 static int (*ip_upper_protocols[])(JsonBuilder *builder,
-        const u_char *bytes) = {
+        const u_char *bytes, const uint16_t len) = {
     [IPPROTO_IP]        ip_dummy,
     [IPPROTO_ICMP]      ip_icmp,
     [IPPROTO_IGMP]      ip_dummy,
@@ -138,7 +140,7 @@ ip_t *ip_extract(const u_char *bytes)
 }
 
 int ip_upper(JsonBuilder *builder, const u_char *bytes,
-        const uint8_t ip_p)
+        const uint8_t ip_p, const uint16_t len)
 {
     u_char *pbytes;
     if (!builder || !bytes)
@@ -146,12 +148,13 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 
     pbytes = (u_char *)(bytes + sizeof(struct ip));
 
-    ip_upper_protocols[ip_p](builder, pbytes);
+    ip_upper_protocols[ip_p](builder, pbytes, len);
 
     return 0;
 }
 
-static int ip_icmp(JsonBuilder *builder, const u_char *bytes)
+static int ip_icmp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len)
 {
     icmp_t *icmpptr = icmp_extract(bytes);
 

@@ -200,6 +200,8 @@ static int  packet_arp(JsonBuilder *builder, const u_char *bytes)
 static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 {
     uint8_t ip_p;
+	uint16_t len;
+
     ip_t *ipptr;
     if (!builder || !bytes)
         return 1;
@@ -264,9 +266,11 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
     json_builder_end_object(builder);               /*  end of object: ip */
 
     ip_p = ipptr->ip_p;
+	len = ipptr->ip_len - ipptr->ip_hl;
+
     free(ipptr);
 
-    ip_upper(builder, bytes, ip_p);
+    ip_upper(builder, bytes, ip_p, len);
     /*-----------------------------------------------------------------------------
      * TODO: analyze upper protocol (ip.protocol) 
      *-----------------------------------------------------------------------------*/
