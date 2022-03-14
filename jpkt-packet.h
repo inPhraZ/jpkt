@@ -16,10 +16,10 @@
 #include <sys/queue.h>
 
 /* Structure containing captured packet */
-typedef struct __reponet_packet {
+typedef struct __jpkt_packet {
     size_t  len;                                /*  Length of message */
     char    *pktmsg;                            /* Packet info as JSON */
-    STAILQ_ENTRY(__reponet_packet)   entries;
+    STAILQ_ENTRY(__jpkt_packet)   entries;
 } packet_t;
 
 /* Singly-linked Tail queue decleration for packet queue */

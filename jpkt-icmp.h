@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-icmp.h
+ *       Filename:  jpkt-icmp.h
  *         Author:  Farzin 
  *
  * =====================================================================================
@@ -12,7 +12,7 @@
 
 #define     ICMPSUMLEN  7
 
-typedef struct __reponet_icmp {
+typedef struct __jpkt_icmp {
     uint8_t type;
     uint8_t code;
     char    *type_str;

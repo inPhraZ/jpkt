@@ -1,17 +1,8 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-arp.c
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  03/07/2022 01:07:15 PM
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  YOUR NAME (), 
- *   Organization:  
+ *       Filename:  jpkt-arp.c
+ *         Author:  Farzin 
  *
  * =====================================================================================
  */
@@ -22,12 +13,12 @@
 #include <arpa/inet.h>
 #include <netinet/ether.h>
 
-#include "reponet-arp.h"
+#include "jpkt-arp.h"
 
 /*  ARP header
  *  ARP packets are variable in size
  *  this structure defines the fixed-length for ARPHRD_ETHER hardware */
-typedef struct __reponet_arphdr {
+typedef struct __jpkt_arphdr {
     uint16_t            ar_hrd;
     uint16_t            ar_pro;
     uint8_t             ar_hln;

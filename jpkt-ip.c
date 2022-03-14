@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-ip.c
+ *       Filename:  jpkt-ip.c
  *         Author:  Farzin 
  *
  * =====================================================================================
@@ -14,8 +14,8 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 
-#include "reponet-ip.h"
-#include "reponet-icmp.h"
+#include "jpkt-ip.h"
+#include "jpkt-icmp.h"
 
 static int ip_icmp(JsonBuilder *builder, const u_char *bytes);
 

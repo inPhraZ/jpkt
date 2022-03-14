@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-ip.h
+ *       Filename:  jpkt-ip.h
  *         Author:  Farzin 
  *
  * =====================================================================================
@@ -21,7 +21,7 @@
 #define IPADDRLEN       INET_ADDRSTRLEN
 
 /*  IP header */
-typedef struct __reponet_ip {
+typedef struct __jpkt_ip {
     uint8_t     ip_v;
     uint8_t     ip_hl;
     char        ip_tos[IPTOSLEN];

@@ -1,2 +1,1 @@
-# reponet
-Collecting traffic information and maybe reporting something about them...
+# jpkt

@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-arp.h
+ *       Filename:  jpkt-arp.h
  *         Author:  Farzin
  *
  * =====================================================================================
@@ -21,7 +21,7 @@
 #define     ARPIPLEN    INET_ADDRSTRLEN
 
 /*  ARP header (for json builder) */
-typedef struct __reponet_arp {
+typedef struct __jpkt_arp {
     char        ar_hrd[ARPHRDLEN];
     char        ar_pro[ARPPROLEN];
     uint8_t     ar_hln;

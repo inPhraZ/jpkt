@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-eth.h
+ *       Filename:  jpkt-eth.h
  *         Author:  Farzin 
  *
  * =====================================================================================
@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 /*  Ethernet header */
-typedef struct __reponet_ethernet {
+typedef struct __jpkt_ethernet {
     uint16_t    type;
     char        *dhost_str;
     char        *shost_str;

@@ -1,7 +1,7 @@
 /*
  * =====================================================================================
  *
- *       Filename:  reponet-eth.c
+ *       Filename:  jpkt-eth.c
  *         Author:  Farzin 
  *
  * =====================================================================================
@@ -14,7 +14,7 @@
 #include <netinet/ether.h>
 #include <net/ethernet.h>
 
-#include "reponet-eth.h"
+#include "jpkt-eth.h"
 
 /*  string of Ethernet protocol ID's */
 static const char *ethernet_type_ids[] = {

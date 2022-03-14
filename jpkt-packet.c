@@ -17,10 +17,10 @@
 #include <net/ethernet.h>
 #include <json-glib/json-glib.h>
 
-#include "reponet-packet.h"
-#include "reponet-eth.h"
-#include "reponet-arp.h"
-#include "reponet-ip.h"
+#include "jpkt-packet.h"
+#include "jpkt-eth.h"
+#include "jpkt-arp.h"
+#include "jpkt-ip.h"
 
 /*  prototypes for packet routines */
 static uint16_t packet_eth(JsonBuilder *builder, const u_char *bytes);
