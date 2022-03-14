@@ -7,8 +7,8 @@
  * =====================================================================================
  */
 
-#ifndef     __REPONET_IP_H_
-#define     __REPONET_IP_H_ 1
+#ifndef     __JPACKET_IP_H_
+#define     __JPACKET_IP_H_ 1
 
 #include <json-glib/json-glib.h>
 
@@ -48,4 +48,4 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 #define ip_free(ipptr)      \
     do { free(ipptr); ipptr = NULL; } while(0)
 
-#endif      /*  __REPONET_IP_H_ */
+#endif      /*  __JPACKET_IP_H_ */

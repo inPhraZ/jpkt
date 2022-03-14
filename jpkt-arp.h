@@ -7,8 +7,8 @@
  * =====================================================================================
  */
 
-#ifndef     __REPONET_ARP_H_
-#define     __REPONET_ARP_H_    1
+#ifndef     __JPACKET_ARP_H_
+#define     __JPACKET_ARP_H_    1
 
 #include <stdint.h>
 #include <netinet/in.h>
@@ -41,4 +41,4 @@ arp_t   *arp_extract(const u_char *bytes);
 #define     arp_free(arpptr)        \
     do { free(arpptr); arpptr = NULL; } while(0)
 
-#endif      /*  __REPONET_ARP_H_ */
+#endif      /*  __JPACKET_ARP_H_ */

@@ -7,8 +7,8 @@
  * =====================================================================================
  */
 
-#ifndef __REPONET_PACKET_H_
-#define __REPONET_PACKET_H_     1
+#ifndef __JPACKET_PACKET_H_
+#define __JPACKET_PACKET_H_     1
 
 #include <stdlib.h>
 #include <pcap/pcap.h>
@@ -33,4 +33,4 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes);
 #define     packet_free(pkt)    \
     do { free(pkt->pktmsg); free(pkt); pkt = NULL; } while(0)
 
-#endif  /*  __REPONET_PACKET_H_ */
+#endif  /*  __JPACKET_PACKET_H_ */

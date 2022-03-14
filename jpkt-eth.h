@@ -7,8 +7,8 @@
  * =====================================================================================
  */
 
-#ifndef     __REPONET_ETHERNET_H_
-#define     __REPONET_ETHERNET_H_   1
+#ifndef     __JPACKET_ETHERNET_H_
+#define     __JPACKET_ETHERNET_H_   1
 
 #include <stdint.h>
 
@@ -37,4 +37,4 @@ ethernet_t     *ethernet_extract(const u_char *bytes);
 #define     ETHERNET_MAX_HOST_LEN       18
 #define     ETHERNET_MAX_TYPEID_LEN     8
 
-#endif      /*  __REPONET_ETHERNET_H_ */
+#endif      /*  __JPACKET_ETHERNET_H_ */

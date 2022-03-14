@@ -7,8 +7,8 @@
  * =====================================================================================
  */
 
-#ifndef     __REPONET_ICMP_H_
-#define     __REPONET_ICMP_H_   1
+#ifndef     __JPACKET_ICMP_H_
+#define     __JPACKET_ICMP_H_   1
 
 #define     ICMPSUMLEN  7
 
@@ -32,4 +32,4 @@ icmp_t  *icmp_extract(const u_char *bytes);
         icmpptr = NULL;     \
     } while(0)
 
-#endif      /*  __REPONET_ICMP_H_ */
+#endif      /*  __JPACKET_ICMP_H_ */
