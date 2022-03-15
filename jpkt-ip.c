@@ -13,9 +13,11 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
+#include <netinet/ip_icmp.h>
 
 #include "jpkt-ip.h"
 #include "jpkt-icmp.h"
+#include "jpkt-data.h"
 
 static int ip_icmp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len);
@@ -156,6 +158,9 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 static int ip_icmp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
 {
+	uint16_t slen;
+	u_char	*dbytes;
+
     icmp_t *icmpptr = icmp_extract(bytes);
 
     json_builder_set_member_name(builder, "icmp");  /*  begin object: icmp */
@@ -181,8 +186,14 @@ static int ip_icmp(JsonBuilder *builder,
     json_builder_set_member_name(builder, "icmp.checksum");
     json_builder_add_string_value(builder, icmpptr->checksum);
 
+	/*  data */
+	slen = len - sizeof(struct icmphdr);
+	dbytes = (u_char *)(bytes + sizeof(struct icmphdr));
+	data_as_json_object(builder, dbytes, slen);
+
     json_builder_end_object(builder);   /*  end of object: icmp */
 
     icmp_free(icmpptr);
+
     return 0;
 }
