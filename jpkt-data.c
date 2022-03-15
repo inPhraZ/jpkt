@@ -44,3 +44,35 @@ char *data_to_string(const u_char *bytes,
 
 	return bstr;
 }
+
+uint16_t data_as_json_object(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t slen)
+{
+	uint16_t dlen;
+	char *bstr;
+	
+	if (!builder || !bytes)
+		return 0;
+
+	bstr = data_to_string(bytes, slen, &dlen);
+	if (!bstr)
+		return 0;
+
+	/*  data */
+	json_builder_set_member_name(builder, "data");	/*  begin object: data  */
+	json_builder_begin_object(builder);
+
+	/*  data.data */
+	json_builder_set_member_name(builder, "data.data");
+	json_builder_add_string_value(builder, bstr);
+
+	/*  data.len */
+	json_builder_set_member_name(builder, "data.len");
+	json_builder_add_int_value(builder, slen);
+
+	json_builder_end_object(builder);	/*  end of object: data  */
+
+	free(bstr);
+
+	return dlen;
+}
