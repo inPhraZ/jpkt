@@ -1,9 +1,10 @@
-OBJS = jpkt-main.o	\
+OBJS = jpkt-main.o		\
 	   jpkt-packet.o	\
-	   jpkt-eth.o	\
-	   jpkt-arp.o	\
+	   jpkt-eth.o		\
+	   jpkt-arp.o		\
 	   jpkt-ip.o		\
-	   jpkt-icmp.o
+	   jpkt-icmp.o		\
+	   jpkt-data.o
 
 LIBS = 	$(shell pkg-config --libs libpcap glib-2.0 json-glib-1.0)
 
@@ -29,6 +30,9 @@ jpkt-ip.o: jpkt-ip.c jpkt-ip.h
 
 jpkt-icmp.o: jpkt-icmp.c jpkt-icmp.h
 	gcc -c jpkt-icmp.c $(INC)
+
+jpkt-data.o: jpkt-data.c jpkt-data.h
+	gcc -c jpkt-data.c $(INC)
 
 clean:
 	rm -rf ./*.o
