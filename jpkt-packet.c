@@ -61,6 +61,28 @@ static packet_t *packet_alloc()
     return pktptr;
 }
 
+/*  timestamp of captured packet */
+static void packet_timestamp(JsonBuilder *builder,
+		const struct pcap_pkthdr *h)
+{
+	if (!builder || !h)
+		return;
+
+	/*  timestamp */
+	json_builder_set_member_name(builder, "timestamp");	/*  begin object: timestamp */
+	json_builder_begin_object(builder);
+
+	/*  ts.sec */
+	json_builder_set_member_name(builder, "ts.sec");
+	json_builder_add_int_value(builder, h->ts.tv_sec);
+
+	/*  ts.usec */
+	json_builder_set_member_name(builder, "ts.usec");
+	json_builder_add_int_value(builder, h->ts.tv_usec);
+
+	json_builder_end_object(builder);	/*  end of object */
+}
+
 /*  Analyze raw bytes of traffic and  */
 packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 {
@@ -74,6 +96,10 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     g_autoptr(JsonBuilder) builder = json_builder_new();
 
     json_builder_begin_object(builder); /*  begin object: main */
+
+	/*  timestamp */
+	packet_timestamp(builder, h);
+
     json_builder_set_member_name(builder, "layers");
     json_builder_begin_object(builder); /*  begin object: layers */
 
