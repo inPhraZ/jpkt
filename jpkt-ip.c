@@ -60,6 +60,10 @@ static const char *ip_protocol_nums[] = {
     [IPPROTO_MPTCP]     "MPTCP"
 };
 
+#if 0
+/* IPPROTO_* has missing numbers
+ * invalid protocol types will crash the program */
+
 /*  function pointers to analyze upper protocols */
 static int (*ip_upper_protocols[])(JsonBuilder *builder,
         const u_char *bytes, const uint16_t len) = {
@@ -91,6 +95,7 @@ static int (*ip_upper_protocols[])(JsonBuilder *builder,
     [IPPROTO_RAW]       ip_dummy,
     [IPPROTO_MPTCP]     ip_dummy
 };
+#endif
 
 ip_t *ip_extract(const u_char *bytes)
 {
@@ -150,7 +155,18 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 
     pbytes = (u_char *)(bytes + sizeof(struct ip));
 
+	switch(ip_p) {
+		case IPPROTO_ICMP:
+			ip_icmp(builder, pbytes, len);
+			break;
+		default:
+			ip_dummy(builder, pbytes, len);
+			break;
+	}
+
+#if 0
     ip_upper_protocols[ip_p](builder, pbytes, len);
+#endif
 
     return 0;
 }

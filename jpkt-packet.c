@@ -33,6 +33,10 @@ static int packet_dummy(JsonBuilder *builder, const u_char *bytes)
     return 0;
 }
 
+#if 0
+/*  ETHERTYPE_* has missing numbers.
+ *  invalid ethertype protocol can crash the program */
+
 /*  function pointers to analyze ethertype protocols
  *  <net/ethernet.h>
  */
@@ -50,6 +54,7 @@ static int (*ethertype_protocols[])(JsonBuilder *builder,
     [ETHERTYPE_IPV6]        packet_dummy,
     [ETHERTYPE_LOOPBACK]    packet_dummy
 };
+#endif
 
 static packet_t *packet_alloc()
 {
@@ -114,7 +119,19 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
     /* Skip ethernet header */
     u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
+	switch(type) {
+		case ETHERTYPE_IP:
+			packet_ip(builder, tmp_bytes);
+			break;
+		case ETHERTYPE_ARP:
+			packet_arp(builder, tmp_bytes);
+			break;
+		default:
+			break;
+	}
+#if 0
     ethertype_protocols[type](builder, tmp_bytes);
+#endif
 
     /*-----------------------------------------------------------------------------
      * TODO: analyze the packet
