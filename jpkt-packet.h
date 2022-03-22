@@ -24,7 +24,7 @@ typedef struct __jpkt_packet {
 
 /* Singly-linked Tail queue decleration for packet queue */
 STAILQ_HEAD(__packet_queue, packet_t);
-typedef struct __packet_queue PktQueue;
+typedef struct __packet_queue jpkt_queue;
 
 /* Analyze the packet */
 packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes);
