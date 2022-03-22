@@ -142,15 +142,14 @@ packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
 
     g_autoptr(JsonNode) root = json_builder_get_root(builder);
     g_autoptr(JsonGenerator) gen = json_generator_new();
-
     json_generator_set_root(gen, root);
-    pktptr->pktmsg = json_generator_to_data(gen, NULL);
-    g_autofree char *tmp = json_generator_to_data(gen, NULL);
-    size_t tlen = strlen(tmp);
-    pktptr->pktmsg = (char *)malloc(tlen+1);
-    memset(pktptr->pktmsg, 0, tlen+1);
-    memmove(pktptr->pktmsg, tmp, tlen);
-    printf("%s\n", pktptr->pktmsg);
+
+	g_autofree char *tmp = json_generator_to_data(gen, NULL);
+	size_t tlen = strlen(tmp);
+	pktptr->len = tlen;
+	pktptr->pktmsg = (char *)malloc(tlen + 1);
+	memset(pktptr->pktmsg, 0, tlen + 1);
+	memmove(pktptr->pktmsg, tmp, tlen);
 
     return pktptr;
 }
