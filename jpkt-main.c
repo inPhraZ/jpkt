@@ -19,7 +19,7 @@
 void callback(u_char *user, const struct pcap_pkthdr *h,
         const u_char *bytes)
 {
-    packet_t *pktptr = analyze_packet(h, bytes);
+    packet_t *pktptr = packet_extract(h, bytes);
     /*-----------------------------------------------------------------------------
      * TODO: add to queue
      *-----------------------------------------------------------------------------*/

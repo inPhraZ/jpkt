@@ -89,7 +89,7 @@ static void packet_timestamp(JsonBuilder *builder,
 }
 
 /*  Analyze raw bytes of traffic and  */
-packet_t   *analyze_packet(const struct pcap_pkthdr *h, const u_char *bytes)
+packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 {
     packet_t *pktptr;
     pktptr = packet_alloc();
