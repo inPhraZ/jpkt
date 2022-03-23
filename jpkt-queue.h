@@ -22,7 +22,7 @@ typedef struct __packet_queue jpkt_queue;
 jpkt_queue	*packet_init_queue();
 
 /* insert pkt at tail of packets queue */
-void 		 packet_enqueue(jpkt_queue *packets, const packet_t *pkt);
+void 		 packet_enqueue(jpkt_queue *packets, packet_t *pkt);
 
 /* remove head from packets queue  */
 packet_t	*packet_dequeue(jpkt_queue *packets);
