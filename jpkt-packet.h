@@ -23,7 +23,7 @@ typedef struct __jpkt_packet {
 } packet_t;
 
 /* Singly-linked Tail queue decleration for packet queue */
-STAILQ_HEAD(__packet_queue, packet_t);
+STAILQ_HEAD(__packet_queue, __jpkt_packet);
 typedef struct __packet_queue jpkt_queue;
 
 /* Analyze the packet */
