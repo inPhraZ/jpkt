@@ -15,15 +15,18 @@
 #include <pcap/pcap.h>
 
 #include "jpkt-packet.h"
+#include "jpkt-queue.h"
 
 void callback(u_char *user, const struct pcap_pkthdr *h,
         const u_char *bytes)
 {
+	jpkt_queue *packets = (jpkt_queue *)user;
     packet_t *pktptr = packet_extract(h, bytes);
-    /*-----------------------------------------------------------------------------
-     * TODO: add to queue
-     *-----------------------------------------------------------------------------*/
-    packet_free(pktptr);
+	packet_enqueue(packets, pktptr);
+
+	packet_t *pkt = packet_dequeue(packets);
+	printf("%s\n", pkt->pktmsg);
+	packet_free(pkt);
 }
 
 int main()
@@ -33,6 +36,13 @@ int main()
     int pcap_status;
     char ifname[IF_NAMESIZE];
     char errbuf[PCAP_ERRBUF_SIZE];
+	jpkt_queue *packets;
+
+	packets = packet_init_queue();
+	if (!packets) {
+		fprintf(stderr, "queue: %s\n", errbuf);
+		exit(EXIT_FAILURE);
+	}
 
     pcap_status = pcap_init(PCAP_CHAR_ENC_LOCAL, errbuf);
     if (pcap_status == -1) {
@@ -71,7 +81,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    pcap_loop(p, 0, callback, NULL);
+    pcap_loop(p, 0, callback, (u_char *)packets);
 
     pcap_close(p);
 
