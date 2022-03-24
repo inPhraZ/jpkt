@@ -1,5 +1,6 @@
 OBJS = jpkt-main.o		\
 	   jpkt-packet.o	\
+	   jpkt-queue.o		\
 	   jpkt-eth.o		\
 	   jpkt-arp.o		\
 	   jpkt-ip.o		\
@@ -18,6 +19,9 @@ jpkt-main.o: jpkt-main.c
 
 jpkt-packet.o: jpkt-packet.c jpkt-packet.h
 	gcc -c jpkt-packet.c $(INC)
+
+jpkt-queue.o: jpkt-queue.c jpkt-queue.h
+	gcc -c jpkt-queue.c $(INC)
 
 jpkt-eth.o: jpkt-eth.c jpkt-eth.h
 	gcc -c jpkt-eth.c $(INC)
