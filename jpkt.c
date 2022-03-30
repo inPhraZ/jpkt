@@ -15,11 +15,16 @@
 #include "jpkt.h"
 #include "jpkt-packet.h"
 
+static struct callback_data {
+	void 		 *user;
+	jpkt_handler callback;
+};
+
 static void jpkt_sniff_handler(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes)
 {
-	jpkt_handler callback = (jpkt_handler)user;
+	struct callback_data *data = (struct callback_data *)user;
 	packet_t *pktptr = packet_extract(h, bytes);
-	callback(NULL, pktptr->pktmsg, pktptr->len);
+	data->callback(data->user, pktptr->pktmsg, pktptr->len);
 	packet_free(pktptr);
 }
 
@@ -46,7 +51,12 @@ int jpkt_sniff(const char *iface,
 		pcap_close(p);
 	}
 
-	pcap_loop(p, 0, jpkt_sniff_handler, (u_char *)callback);
+	struct callback_data *data;
+	data = (struct callback_data *)malloc(sizeof(struct callback_data));
+
+	data->user = user;
+	data->callback = callback;
+	pcap_loop(p, 0, jpkt_sniff_handler, (u_char *)data);
 	pcap_close(p);
 
 	return 0;
