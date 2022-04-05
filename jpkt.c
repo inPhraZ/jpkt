@@ -15,7 +15,7 @@
 #include "jpkt.h"
 #include "jpkt-packet.h"
 
-static struct callback_data {
+struct callback_data {
 	void 		 *user;
 	jpkt_handler callback;
 };
