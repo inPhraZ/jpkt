@@ -49,6 +49,7 @@ int jpkt_sniff(const char *iface,
 	if (pcap_activate(p)) {
 		pcap_perror(p, "pcap_activate");
 		pcap_close(p);
+		return 1;
 	}
 
 	struct callback_data *data;
