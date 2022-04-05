@@ -20,6 +20,13 @@ static struct callback_data {
 	jpkt_handler callback;
 };
 
+int jpkt_findalldevs(jpkt_if_t **alldevsp, char *errbuf)
+{
+	if(pcap_findalldevs(alldevsp, errbuf))
+		return 1;
+	return 0;
+}
+
 static void jpkt_sniff_handler(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes)
 {
 	struct callback_data *data = (struct callback_data *)user;
