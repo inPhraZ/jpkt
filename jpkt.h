@@ -12,7 +12,7 @@
 
 typedef pcap_if_t jpkt_if_t;
 
-typedef void (*jpkt_handler)(void *, const char *, const size_t);
+typedef void (*jpkt_handler)(void *user, const char *pkt, const size_t len);
 
 int jpkt_findalldevs(jpkt_if_t **alldevsp, char *errbuf);
 
