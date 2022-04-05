@@ -27,6 +27,11 @@ int jpkt_findalldevs(jpkt_if_t **alldevsp, char *errbuf)
 	return 0;
 }
 
+void jpkt_freealldevs(jpkt_if_t *alldevs)
+{
+	pcap_freealldevs(alldevs);
+}
+
 static void jpkt_sniff_handler(u_char *user, const struct pcap_pkthdr *h, const u_char *bytes)
 {
 	struct callback_data *data = (struct callback_data *)user;

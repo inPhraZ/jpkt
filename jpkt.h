@@ -16,6 +16,8 @@ typedef void (*jpkt_handler)(void *, const char *, const size_t);
 
 int jpkt_findalldevs(jpkt_if_t **alldevsp, char *errbuf);
 
+void jpkt_freealldevs(jpkt_if_t *alldevs);
+
 int jpkt_sniff(const char *iface,
 		unsigned int count,
 		jpkt_handler,
