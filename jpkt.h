@@ -10,6 +10,8 @@
 #ifndef 		__JPACKET_H_
 #define 		__JPACKET_H_	1
 
+#include <pcap/pcap.h>
+
 typedef pcap_if_t jpkt_if_t;
 
 typedef void (*jpkt_handler)(void *user, const char *pkt, const size_t len);
