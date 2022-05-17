@@ -17,6 +17,7 @@
 
 #include "jpkt-ip.h"
 #include "jpkt-icmp.h"
+#include "jpkt-udp.h"
 #include "jpkt-data.h"
 
 static int ip_icmp(JsonBuilder *builder,
@@ -158,6 +159,9 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 	switch(ip_p) {
 		case IPPROTO_ICMP:
 			ip_icmp(builder, pbytes, len);
+			break;
+		case IPPROTO_UDP:
+			udp_extract(pbytes);
 			break;
 		default:
 			ip_dummy(builder, pbytes, len);
