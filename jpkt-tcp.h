@@ -52,4 +52,6 @@ typedef struct __jpkt_tcp {
 	char		th_sum[TCPSUMLEN];
 } tcp_t;
 
+tcp_t	*tcp_extract(const uchar *bytes);
+
 #endif		/*  __JPACKET_TCP_H_ */
