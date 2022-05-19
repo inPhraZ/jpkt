@@ -10,8 +10,43 @@
 #ifndef 	__JPACKET_TCP_H_
 #define 	__JPACKET_TCP_H_	1
 
+#include <netinet/tcp.h>
+
+/*
+
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          Source Port          |       Destination Port        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                        Sequence Number                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Acknowledgment Number                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |  Data |           |U|A|P|R|S|F|                               |
+   | Offset| Reserved  |R|C|S|S|Y|I|            Window             |
+   |       |           |G|K|H|T|N|N|                               |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |           Checksum            |         Urgent Pointer        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Options                    |    Padding    |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                             data                              |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+*/
+
+/*  TCP header format (RFC 793) */
 typedef struct __jpkt_tcp {
-	/*	tcp fields */
+	uint16_t 	th_sport;	/*  Source port */
+	uint16_t	th_dport;	/*  Destination port */
+	uint32_t	th_seq;		/*  Sequence number */
+	uint32_t 	th_ack;		/*  Acknowledgement number */
+	uint8_t		th_doff;	/*  Data offset */
+	uint8_t		th_unu;		/*  Reserved (unused) */
+	uint8_t		th_flags;	/*	(URG, ACK, PSH, RST, SYN, FIN) */
+	uint16_t 	th_wnd;		/*  Window */
+	uint16_t	th_sum;		/*  Checksum */
+	uint16_t 	th_urp;		/*  Urgent pointer */
 } tcp_t;
 
 #endif		/*  __JPACKET_TCP_H_ */
