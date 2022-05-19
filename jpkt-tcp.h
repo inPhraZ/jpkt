@@ -12,6 +12,8 @@
 
 #include <netinet/tcp.h>
 
+#define 	TCPSUMLEN	7
+
 /*
 
     0                   1                   2                   3
@@ -45,8 +47,9 @@ typedef struct __jpkt_tcp {
 	uint8_t		th_unu;		/*  Reserved (unused) */
 	uint8_t		th_flags;	/*	(URG, ACK, PSH, RST, SYN, FIN) */
 	uint16_t 	th_wnd;		/*  Window */
-	uint16_t	th_sum;		/*  Checksum */
+//	uint16_t	th_sum;		/*  Checksum */
 	uint16_t 	th_urp;		/*  Urgent pointer */
+	char		th_sum[TCPSUMLEN];
 } tcp_t;
 
 #endif		/*  __JPACKET_TCP_H_ */
