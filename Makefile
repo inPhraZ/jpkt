@@ -4,6 +4,7 @@ OBJS = jpkt-main.o		\
 	   jpkt-eth.o		\
 	   jpkt-arp.o		\
 	   jpkt-ip.o		\
+	   jpkt-udp.o		\
 	   jpkt-icmp.o		\
 	   jpkt-data.o
 
@@ -34,6 +35,9 @@ jpkt-ip.o: jpkt-ip.c jpkt-ip.h
 
 jpkt-icmp.o: jpkt-icmp.c jpkt-icmp.h
 	gcc -c jpkt-icmp.c $(INC)
+
+jpkt-udp.o: jpkt-udp.c jpkt-udp.h
+	gcc -c jpkt-udp.c $(INC)
 
 jpkt-data.o: jpkt-data.c jpkt-data.h
 	gcc -c jpkt-data.c $(INC)
