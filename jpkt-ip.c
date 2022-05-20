@@ -163,6 +163,9 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 		case IPPROTO_UDP:
 			udp_extract(pbytes);
 			break;
+		case IPPROTO_TCP:
+//			tcp_extract(pbytes);
+			break;
 		default:
 			ip_dummy(builder, pbytes, len);
 			break;
