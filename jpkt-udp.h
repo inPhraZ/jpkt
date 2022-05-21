@@ -23,4 +23,7 @@ typedef struct __jpkt_udp {
 
 udp_t *udp_extract(const u_char *bytes);
 
+#define udp_free(udpptr)	\
+	do { free(udpptr); udpptr = NULL; } while(0)
+
 #endif		/*  __JPACKET_UDP_H_  */
