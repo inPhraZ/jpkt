@@ -4,11 +4,8 @@ OBJS = jpkt-main.o		\
 	   jpkt-eth.o		\
 	   jpkt-arp.o		\
 	   jpkt-ip.o		\
-<<<<<<< HEAD
 	   jpkt-udp.o		\
-=======
 	   jpkt-tcp.o		\
->>>>>>> tcp
 	   jpkt-icmp.o		\
 	   jpkt-data.o
 
