@@ -23,6 +23,9 @@
 static int ip_icmp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len);
 
+static int ip_udp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len);
+
 /*  dummy finction for protocols that have not yet been supported */
 static int ip_dummy(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
@@ -161,7 +164,7 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 			ip_icmp(builder, pbytes, len);
 			break;
 		case IPPROTO_UDP:
-			udp_extract(pbytes);
+			ip_udp(builder, pbytes, len);
 			break;
 		case IPPROTO_TCP:
 //			tcp_extract(pbytes);
@@ -219,4 +222,40 @@ static int ip_icmp(JsonBuilder *builder,
     icmp_free(icmpptr);
 
     return 0;
+}
+
+static int ip_udp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len)
+{
+	udp_t *udpptr;
+	udpptr  = udp_extract(bytes);
+
+    json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
+    json_builder_begin_object(builder);
+
+    /*  udp.srcport */
+    json_builder_set_member_name(builder, "udp.srcport");
+    json_builder_add_int_value(builder, udpptr->uh_sport);
+
+    /*  udp.dstport */
+    json_builder_set_member_name(builder, "udp.dstport");
+    json_builder_add_int_value(builder, udpptr->uh_dport);
+
+    /*  udp.length */
+    json_builder_set_member_name(builder, "udp.length");
+    json_builder_add_int_value(builder, udpptr->uh_ulen);
+
+    /*  udp.checksum */
+    json_builder_set_member_name(builder, "udp.checksum");
+    json_builder_add_string_value(builder, udpptr->uh_sum);
+
+	/*-----------------------------------------------------------------------------
+	 * TODO: Data 
+	 *-----------------------------------------------------------------------------*/
+
+    json_builder_end_object(builder);   /*  end of object: icmp */
+
+	udp_free(udpptr);
+
+	return 0;
 }
