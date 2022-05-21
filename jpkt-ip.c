@@ -226,6 +226,32 @@ static int ip_udp(JsonBuilder *builder,
 {
 	udp_t *udpptr;
 	udpptr  = udp_extract(bytes);
+
+    json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
+    json_builder_begin_object(builder);
+
+    /*  udp.srcport */
+    json_builder_set_member_name(builder, "udp.srcport");
+    json_builder_add_int_value(builder, udpptr->uh_sport);
+
+    /*  udp.dstport */
+    json_builder_set_member_name(builder, "udp.dstport");
+    json_builder_add_int_value(builder, udpptr->uh_dport);
+
+    /*  udp.length */
+    json_builder_set_member_name(builder, "udp.length");
+    json_builder_add_int_value(builder, udpptr->uh_ulen);
+
+    /*  udp.checksum */
+    json_builder_set_member_name(builder, "udp.checksum");
+    json_builder_add_string_value(builder, udpptr->uh_sum);
+
+	/*-----------------------------------------------------------------------------
+	 * TODO: Data 
+	 *-----------------------------------------------------------------------------*/
+
+    json_builder_end_object(builder);   /*  end of object: icmp */
+
 	udp_free(udpptr);
 
 	return 0;
