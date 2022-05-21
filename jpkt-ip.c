@@ -23,6 +23,9 @@
 static int ip_icmp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len);
 
+static int ip_udp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len);
+
 /*  dummy finction for protocols that have not yet been supported */
 static int ip_dummy(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
@@ -161,7 +164,7 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 			ip_icmp(builder, pbytes, len);
 			break;
 		case IPPROTO_UDP:
-			udp_extract(pbytes);
+			ip_udp(builder, pbytes, len);
 			break;
 		default:
 			ip_dummy(builder, pbytes, len);
@@ -216,4 +219,14 @@ static int ip_icmp(JsonBuilder *builder,
     icmp_free(icmpptr);
 
     return 0;
+}
+
+static int ip_udp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len)
+{
+	udp_t *udpptr;
+	udpptr  = udp_extract(bytes);
+	udp_free(udpptr);
+
+	return 0;
 }
