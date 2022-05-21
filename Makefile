@@ -4,7 +4,11 @@ OBJS = jpkt-main.o		\
 	   jpkt-eth.o		\
 	   jpkt-arp.o		\
 	   jpkt-ip.o		\
+<<<<<<< HEAD
 	   jpkt-udp.o		\
+=======
+	   jpkt-tcp.o		\
+>>>>>>> tcp
 	   jpkt-icmp.o		\
 	   jpkt-data.o
 
@@ -38,6 +42,9 @@ jpkt-icmp.o: jpkt-icmp.c jpkt-icmp.h
 
 jpkt-udp.o: jpkt-udp.c jpkt-udp.h
 	gcc -c jpkt-udp.c $(INC)
+
+jpkt-tcp.o: jpkt-tcp.c jpkt-tcp.h
+	gcc -c jpkt-tcp.c $(INC)
 
 jpkt-data.o: jpkt-data.c jpkt-data.h
 	gcc -c jpkt-data.c $(INC)
