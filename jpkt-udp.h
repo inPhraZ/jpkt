@@ -14,6 +14,21 @@
 
 #define 	UDPSUMLEN	7
 
+/*
+     0      7 8     15 16    23 24    31
+    +--------+--------+--------+--------+
+    |     Source      |   Destination   |
+    |      Port       |      Port       |
+    +--------+--------+--------+--------+
+    |                 |                 |
+    |     Length      |    Checksum     |
+    +--------+--------+--------+--------+
+    |                                   |
+    |          data octets              |
+    +-----------------------------------+
+*/
+
+/*  User Datagram format (RFC 768) */
 typedef struct __jpkt_udp {
 	uint16_t uh_sport;
 	uint16_t uh_dport;
