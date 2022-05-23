@@ -107,7 +107,7 @@ icmp_t *icmp_extract(const u_char *bytes)
     icmpptr->code_str = icmp_get_code(type, code);
 
     snprintf(icmpptr->checksum, ICMPSUMLEN,
-            "0x%x", ntohs(icmp_header->checksum));
+            "0x%04x", ntohs(icmp_header->checksum));
 
     return icmpptr;
 }
