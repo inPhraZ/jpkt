@@ -53,4 +53,7 @@ typedef struct __jpkt_tcp {
 
 tcp_t	*tcp_extract(const u_char *bytes);
 
+#define tcp_free(tcpptr)	\
+	do { free(tcpptr); tcpptr = NULL; } while(0)
+
 #endif		/*  __JPACKET_TCP_H_ */
