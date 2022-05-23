@@ -44,7 +44,7 @@ udp_t *udp_extract(const u_char *bytes)
 	udp->uh_ulen = ntohs(udp_header->uh_ulen);
 
 	snprintf(udp->uh_sum, UDPSUMLEN,
-			"0x%x", ntohs(udp_header->uh_sum));
+			"0x%04x", ntohs(udp_header->uh_sum));
 
 	return udp;
 }
