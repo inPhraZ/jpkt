@@ -12,6 +12,7 @@
 
 #include <netinet/tcp.h>
 
+#define 	TCPFLGLEN	6
 #define 	TCPSUMLEN	7
 
 /*
@@ -39,15 +40,13 @@
 
 /*  TCP header format (RFC 793) */
 typedef struct __jpkt_tcp {
-	uint16_t 	th_sport;	/*  Source port */
-	uint16_t	th_dport;	/*  Destination port */
-	uint32_t	th_seq;		/*  Sequence number */
-	uint32_t 	th_ack;		/*  Acknowledgement number */
-	uint8_t		th_doff;	/*  Data offset */
-	uint8_t		th_unu;		/*  Reserved (unused) */
-	uint8_t		th_flags;	/*	(URG, ACK, PSH, RST, SYN, FIN) */
+	uint16_t 	th_sport;				/*  Source port */
+	uint16_t	th_dport;				/*  Destination port */
+	uint32_t	th_seq;					/*  Sequence number */
+	uint32_t 	th_ack;					/*  Acknowledgement number */
+	uint8_t		th_doff;				/*  Data offset */
+	char 		th_flags[TCPFLGLEN];	/*  (Reserved, URG, ACK, PSH, RST, SYN, FIN) */
 	uint16_t 	th_wnd;		/*  Window */
-//	uint16_t	th_sum;		/*  Checksum */
 	uint16_t 	th_urp;		/*  Urgent pointer */
 	char		th_sum[TCPSUMLEN];
 } tcp_t;
