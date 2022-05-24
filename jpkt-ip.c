@@ -271,45 +271,45 @@ static int ip_tcp(JsonBuilder *builder,
 	tcpptr = tcp_extract(bytes);
 
 	json_builder_set_member_name(builder, "tcp");  /*  begin object: tcp */
-    json_builder_begin_object(builder);
+	json_builder_begin_object(builder);
 
-    /*  tcp.sport */
-    json_builder_set_member_name(builder, "tcp.sport");
-    json_builder_add_int_value(builder, tcpptr->th_sport);
+	/*  tcp.sport */
+	json_builder_set_member_name(builder, "tcp.sport");
+	json_builder_add_int_value(builder, tcpptr->th_sport);
 
-    /*  tcp.dport */
-    json_builder_set_member_name(builder, "tcp.dport");
-    json_builder_add_int_value(builder, tcpptr->th_dport);
+	/*  tcp.dport */
+	json_builder_set_member_name(builder, "tcp.dport");
+	json_builder_add_int_value(builder, tcpptr->th_dport);
 
-    /*  tcp.seq */
-    json_builder_set_member_name(builder, "tcp.seq");
-    json_builder_add_int_value(builder, tcpptr->th_seq);
+	/*  tcp.seq */
+	json_builder_set_member_name(builder, "tcp.seq");
+	json_builder_add_int_value(builder, tcpptr->th_seq);
 
-    /*  tcp.ack */
-    json_builder_set_member_name(builder, "tcp.ack");
-    json_builder_add_int_value(builder, tcpptr->th_ack);
+	/*  tcp.ack */
+	json_builder_set_member_name(builder, "tcp.ack");
+	json_builder_add_int_value(builder, tcpptr->th_ack);
 
-    /*  tcp.doff */
-    json_builder_set_member_name(builder, "tcp.doff");
-    json_builder_add_int_value(builder, tcpptr->th_doff);
+	/*  tcp.doff */
+	json_builder_set_member_name(builder, "tcp.doff");
+	json_builder_add_int_value(builder, tcpptr->th_doff);
 
-    /*  tcp.flags */
-    json_builder_set_member_name(builder, "tcp.flags");
-    json_builder_add_string_value(builder, tcpptr->th_flags);
+	/*  tcp.flags */
+	json_builder_set_member_name(builder, "tcp.flags");
+	json_builder_add_string_value(builder, tcpptr->th_flags);
 
-    /*  tcp.wnd */
-    json_builder_set_member_name(builder, "tcp.wnd");
-    json_builder_add_int_value(builder, tcpptr->th_wnd);
+	/*  tcp.wnd */
+	json_builder_set_member_name(builder, "tcp.wnd");
+	json_builder_add_int_value(builder, tcpptr->th_wnd);
 
-    /*  tcp.urp */
-    json_builder_set_member_name(builder, "tcp.urp");
-    json_builder_add_int_value(builder, tcpptr->th_urp);
+	/*  tcp.urp */
+	json_builder_set_member_name(builder, "tcp.urp");
+	json_builder_add_int_value(builder, tcpptr->th_urp);
 
-    /*  tcp.checksum */
-    json_builder_set_member_name(builder, "tcp.checksum");
-    json_builder_add_string_value(builder, tcpptr->th_sum);
+	/*  tcp.checksum */
+	json_builder_set_member_name(builder, "tcp.checksum");
+	json_builder_add_string_value(builder, tcpptr->th_sum);
 
-    json_builder_end_object(builder);   /*  end of object: tcp */
+	json_builder_end_object(builder);   /*  end of object: tcp */
 
 	tcp_free(tcpptr);
 
