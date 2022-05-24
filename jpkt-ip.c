@@ -191,41 +191,41 @@ static int ip_icmp(JsonBuilder *builder,
 	uint16_t slen;
 	u_char	*dbytes;
 
-    icmp_t *icmpptr = icmp_extract(bytes);
+	icmp_t *icmpptr = icmp_extract(bytes);
 
-    json_builder_set_member_name(builder, "icmp");  /*  begin object: icmp */
-    json_builder_begin_object(builder);
+	json_builder_set_member_name(builder, "icmp");  /*  begin object: icmp */
+	json_builder_begin_object(builder);
 
-    /*  icmp.type */
-    json_builder_set_member_name(builder, "icmp.type");
-    json_builder_add_int_value(builder, icmpptr->type);
+	/*  icmp.type */
+	json_builder_set_member_name(builder, "icmp.type");
+	json_builder_add_int_value(builder, icmpptr->type);
 
-    /*  icmp.code */
-    json_builder_set_member_name(builder, "icmp.code");
-    json_builder_add_int_value(builder, icmpptr->code);
+	/*  icmp.code */
+	json_builder_set_member_name(builder, "icmp.code");
+	json_builder_add_int_value(builder, icmpptr->code);
 
-    /*  icmp.type.str */
-    json_builder_set_member_name(builder, "icmp.type.str");
-    json_builder_add_string_value(builder, icmpptr->type_str);
+	/*  icmp.type.str */
+	json_builder_set_member_name(builder, "icmp.type.str");
+	json_builder_add_string_value(builder, icmpptr->type_str);
 
-    /*  icmp.code.str */
-    json_builder_set_member_name(builder, "icmp.code.str");
-    json_builder_add_string_value(builder, icmpptr->code_str);
+	/*  icmp.code.str */
+	json_builder_set_member_name(builder, "icmp.code.str");
+	json_builder_add_string_value(builder, icmpptr->code_str);
 
-    /*  icmp.checksum */
-    json_builder_set_member_name(builder, "icmp.checksum");
-    json_builder_add_string_value(builder, icmpptr->checksum);
+	/*  icmp.checksum */
+	json_builder_set_member_name(builder, "icmp.checksum");
+	json_builder_add_string_value(builder, icmpptr->checksum);
 
 	/*  data */
 	slen = len - sizeof(struct icmphdr);
 	dbytes = (u_char *)(bytes + sizeof(struct icmphdr));
 	data_as_json_object(builder, dbytes, slen);
 
-    json_builder_end_object(builder);   /*  end of object: icmp */
+	json_builder_end_object(builder);   /*  end of object: icmp */
 
-    icmp_free(icmpptr);
+	icmp_free(icmpptr);
 
-    return 0;
+	return 0;
 }
 
 static int ip_udp(JsonBuilder *builder,
@@ -234,30 +234,30 @@ static int ip_udp(JsonBuilder *builder,
 	udp_t *udpptr;
 	udpptr  = udp_extract(bytes);
 
-    json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
-    json_builder_begin_object(builder);
+	json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
+	json_builder_begin_object(builder);
 
-    /*  udp.srcport */
-    json_builder_set_member_name(builder, "udp.srcport");
-    json_builder_add_int_value(builder, udpptr->uh_sport);
+	/*  udp.srcport */
+	json_builder_set_member_name(builder, "udp.srcport");
+	json_builder_add_int_value(builder, udpptr->uh_sport);
 
-    /*  udp.dstport */
-    json_builder_set_member_name(builder, "udp.dstport");
-    json_builder_add_int_value(builder, udpptr->uh_dport);
+	/*  udp.dstport */
+	json_builder_set_member_name(builder, "udp.dstport");
+	json_builder_add_int_value(builder, udpptr->uh_dport);
 
-    /*  udp.length */
-    json_builder_set_member_name(builder, "udp.length");
-    json_builder_add_int_value(builder, udpptr->uh_ulen);
+	/*  udp.length */
+	json_builder_set_member_name(builder, "udp.length");
+	json_builder_add_int_value(builder, udpptr->uh_ulen);
 
-    /*  udp.checksum */
-    json_builder_set_member_name(builder, "udp.checksum");
-    json_builder_add_string_value(builder, udpptr->uh_sum);
+	/*  udp.checksum */
+	json_builder_set_member_name(builder, "udp.checksum");
+	json_builder_add_string_value(builder, udpptr->uh_sum);
 
 	/*-----------------------------------------------------------------------------
 	 * TODO: Data 
 	 *-----------------------------------------------------------------------------*/
 
-    json_builder_end_object(builder);   /*  end of object: icmp */
+	json_builder_end_object(builder);   /*  end of object: icmp */
 
 	udp_free(udpptr);
 
