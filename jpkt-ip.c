@@ -27,6 +27,9 @@ static int ip_icmp(JsonBuilder *builder,
 static int ip_udp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len);
 
+static int ip_tcp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len);
+
 /*  dummy finction for protocols that have not yet been supported */
 static int ip_dummy(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
@@ -168,7 +171,7 @@ int ip_upper(JsonBuilder *builder, const u_char *bytes,
 			ip_udp(builder, pbytes, len);
 			break;
 		case IPPROTO_TCP:
-			tcp_extract(pbytes);
+			ip_tcp(builder, pbytes, len);
 			break;
 		default:
 			ip_dummy(builder, pbytes, len);
@@ -257,6 +260,58 @@ static int ip_udp(JsonBuilder *builder,
     json_builder_end_object(builder);   /*  end of object: icmp */
 
 	udp_free(udpptr);
+
+	return 0;
+}
+
+static int ip_tcp(JsonBuilder *builder,
+		const u_char *bytes, const uint16_t len)
+{
+	tcp_t *tcpptr;
+	tcpptr = tcp_extract(bytes);
+
+	json_builder_set_member_name(builder, "tcp");  /*  begin object: tcp */
+    json_builder_begin_object(builder);
+
+    /*  tcp.sport */
+    json_builder_set_member_name(builder, "tcp.sport");
+    json_builder_add_int_value(builder, tcpptr->th_sport);
+
+    /*  tcp.dport */
+    json_builder_set_member_name(builder, "tcp.dport");
+    json_builder_add_int_value(builder, tcpptr->th_dport);
+
+    /*  tcp.seq */
+    json_builder_set_member_name(builder, "tcp.seq");
+    json_builder_add_int_value(builder, tcpptr->th_seq);
+
+    /*  tcp.ack */
+    json_builder_set_member_name(builder, "tcp.ack");
+    json_builder_add_int_value(builder, tcpptr->th_ack);
+
+    /*  tcp.doff */
+    json_builder_set_member_name(builder, "tcp.doff");
+    json_builder_add_int_value(builder, tcpptr->th_doff);
+
+    /*  tcp.flags */
+    json_builder_set_member_name(builder, "tcp.flags");
+    json_builder_add_string_value(builder, tcpptr->th_flags);
+
+    /*  tcp.wnd */
+    json_builder_set_member_name(builder, "tcp.wnd");
+    json_builder_add_int_value(builder, tcpptr->th_wnd);
+
+    /*  tcp.urp */
+    json_builder_set_member_name(builder, "tcp.urp");
+    json_builder_add_int_value(builder, tcpptr->th_urp);
+
+    /*  tcp.checksum */
+    json_builder_set_member_name(builder, "tcp.checksum");
+    json_builder_add_string_value(builder, tcpptr->th_sum);
+
+    json_builder_end_object(builder);   /*  end of object: tcp */
+
+	tcp_free(tcpptr);
 
 	return 0;
 }
