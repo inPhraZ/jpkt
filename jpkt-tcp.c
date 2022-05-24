@@ -37,6 +37,10 @@ tcp_t	*tcp_extract(const u_char *bytes)
 
 	tcp_header = (struct tcphdr *)bytes;
 
+	tcp = tcp_alloc();
+	if (!tcp)
+		return NULL;
+
 	tcp->th_sport = ntohs(tcp_header->th_sport);
 	tcp->th_dport = ntohs(tcp_header->th_dport);
 	tcp->th_seq = ntohl(tcp_header->th_seq);
