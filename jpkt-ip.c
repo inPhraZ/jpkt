@@ -191,6 +191,9 @@ static int ip_icmp(JsonBuilder *builder,
 	uint16_t slen;
 	u_char	*dbytes;
 
+	if (!builder || !bytes)
+		return 1;
+
 	icmp_t *icmpptr = icmp_extract(bytes);
 
 	json_builder_set_member_name(builder, "icmp");  /*  begin object: icmp */
@@ -232,6 +235,10 @@ static int ip_udp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
 {
 	udp_t *udpptr;
+
+	if (!builder || !bytes)
+		return 1;
+
 	udpptr  = udp_extract(bytes);
 
 	json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
@@ -268,6 +275,10 @@ static int ip_tcp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
 {
 	tcp_t *tcpptr;
+
+	if (!builder || !bytes)
+		return 1;
+
 	tcpptr = tcp_extract(bytes);
 
 	json_builder_set_member_name(builder, "tcp");  /*  begin object: tcp */
