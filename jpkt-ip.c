@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_icmp.h>
+#include <netinet/udp.h>
 
 #include "jpkt-ip.h"
 #include "jpkt-icmp.h"
@@ -234,11 +235,13 @@ static int ip_icmp(JsonBuilder *builder,
 static int ip_udp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
 {
-	udp_t *udpptr;
+	uint16_t slen;
+	u_char 	*dbytes;
 
 	if (!builder || !bytes)
 		return 1;
 
+	udp_t *udpptr;
 	udpptr  = udp_extract(bytes);
 
 	json_builder_set_member_name(builder, "udp");  /*  begin object: udp */
@@ -260,9 +263,10 @@ static int ip_udp(JsonBuilder *builder,
 	json_builder_set_member_name(builder, "udp.checksum");
 	json_builder_add_string_value(builder, udpptr->uh_sum);
 
-	/*-----------------------------------------------------------------------------
-	 * TODO: Data 
-	 *-----------------------------------------------------------------------------*/
+	/*  data */
+	slen = len - sizeof(struct icmphdr);
+	dbytes = (u_char *)(bytes + sizeof(struct udphdr));
+	data_as_json_object(builder, dbytes, slen);
 
 	json_builder_end_object(builder);   /*  end of object: icmp */
 
