@@ -278,11 +278,13 @@ static int ip_udp(JsonBuilder *builder,
 static int ip_tcp(JsonBuilder *builder,
 		const u_char *bytes, const uint16_t len)
 {
-	tcp_t *tcpptr;
+	uint16_t slen;
+	u_char 	*dbytes;
 
 	if (!builder || !bytes)
 		return 1;
 
+	tcp_t *tcpptr;
 	tcpptr = tcp_extract(bytes);
 
 	json_builder_set_member_name(builder, "tcp");  /*  begin object: tcp */
@@ -323,6 +325,11 @@ static int ip_tcp(JsonBuilder *builder,
 	/*  tcp.checksum */
 	json_builder_set_member_name(builder, "tcp.checksum");
 	json_builder_add_string_value(builder, tcpptr->th_sum);
+
+	/*  data */
+	slen = len - sizeof(struct icmphdr);
+	dbytes = (u_char *)(bytes + sizeof(struct tcphdr));
+	data_as_json_object(builder, dbytes, slen);
 
 	json_builder_end_object(builder);   /*  end of object: tcp */
 
