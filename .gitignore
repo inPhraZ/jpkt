@@ -35,6 +35,7 @@
 
 # Executables
 jpkt
+example
 *.exe
 *.out
 *.app
