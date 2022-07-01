@@ -36,11 +36,11 @@ char *data_to_string(const u_char *bytes,
 	uint16_t i;
 	for (i = 0; i < slen - 1; ++i) {
 		snprintf(tmp, 4, "%02x:", bytes[i]);
-		strncat(bstr, tmp, 3);
+		strncat(bstr, tmp, 4);
 	}
 	/*  last byte */
 	sprintf(tmp, "%02x", bytes[i]);
-	strncat(bstr, tmp, 3);
+	strncat(bstr, tmp, 4);
 
 	return bstr;
 }
