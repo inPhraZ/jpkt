@@ -1,50 +1,62 @@
-OBJS = jpkt-main.o		\
-	   jpkt-packet.o	\
-	   jpkt-queue.o		\
-	   jpkt-eth.o		\
-	   jpkt-arp.o		\
-	   jpkt-ip.o		\
-	   jpkt-udp.o		\
-	   jpkt-tcp.o		\
-	   jpkt-icmp.o		\
-	   jpkt-data.o
+prefix := /usr/local
+libdir := ${prefix}/lib
+includedir := ${prefix}/include
 
-LIBS = 	$(shell pkg-config --libs libpcap glib-2.0 json-glib-1.0)
+rootdir := .
+SRC := ${rootdir}/src
+INC := ${rootdir}/include
+BIN := ${rootdir}/bin
+LIB := ${rootdir}/lib
+EXM := ${rootdir}/example
 
-INC = $(shell pkg-config --cflags glib-2.0 json-glib-1.0)
+MAJOR := 1
+MINOR := 0
+PROG := libjpkt
+LIBJPKT := $(PROG).$(MAJOR).$(MINOR).a
 
-jpkt: $(OBJS)
-	gcc -o jpkt $(OBJS) $(LIBS)
+CC := gcc
+AR := ar
 
-jpkt-main.o: jpkt-main.c
-	gcc -c jpkt-main.c
+CFLAGS := -O2 -Wall -Werror -fPIC
+ARFLAGS := -rcs
 
-jpkt-packet.o: jpkt-packet.c jpkt-packet.h
-	gcc -c jpkt-packet.c $(INC)
+DEPS = \
+	$(shell pkg-config --libs libpcap glib-2.0 json-glib-1.0)	\
+	$(shell pkg-config --cflags glib-2.0 json-glib-1.0)
 
-jpkt-queue.o: jpkt-queue.c jpkt-queue.h
-	gcc -c jpkt-queue.c $(INC)
+OBJS :=				\
+	jpkt.o			\
+	jpkt-packet.o	\
+	jpkt-queue.o	\
+	jpkt-eth.o		\
+	jpkt-arp.o		\
+	jpkt-ip.o		\
+	jpkt-udp.o		\
+	jpkt-tcp.o		\
+	jpkt-icmp.o		\
+	jpkt-data.o
 
-jpkt-eth.o: jpkt-eth.c jpkt-eth.h
-	gcc -c jpkt-eth.c $(INC)
+.PHONY: lib
 
-jpkt-arp.o: jpkt-arp.c jpkt-arp.h
-	gcc -c jpkt-arp.c $(INC)
+lib: 
+	mkdir -p $(LIB) $(BIN)
+	$(CC) $(CFLAGS) -c $(SRC)/*.c -I $(INC) $(DEPS)
+	$(AR) $(ARFLAGS) $(LIB)/$(LIBJPKT) $(OBJS)
+	mv $(OBJS) $(BIN)
 
-jpkt-ip.o: jpkt-ip.c jpkt-ip.h
-	gcc -c jpkt-ip.c $(INC)
+example: lib
+	$(CC) $(CFLAGS) -g $(EXM)/$@.c $(LIB)/$(LIBJPKT) -o $(EXM)/$@ -I $(INC) $(DEPS)
 
-jpkt-icmp.o: jpkt-icmp.c jpkt-icmp.h
-	gcc -c jpkt-icmp.c $(INC)
+install: lib
+	@echo
+	@echo install
 
-jpkt-udp.o: jpkt-udp.c jpkt-udp.h
-	gcc -c jpkt-udp.c $(INC)
-
-jpkt-tcp.o: jpkt-tcp.c jpkt-tcp.h
-	gcc -c jpkt-tcp.c $(INC)
-
-jpkt-data.o: jpkt-data.c jpkt-data.h
-	gcc -c jpkt-data.c $(INC)
+uninstall:
+	@echo Uninstall
 
 clean:
-	rm -rf ./*.o
+	rm -rf $(BIN)
+
+cleanall: clean
+	rm -rf $(LIB)
+	rm -rf $(EXM)/example
