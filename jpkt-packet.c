@@ -127,6 +127,7 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 			packet_arp(builder, tmp_bytes);
 			break;
 		default:
+			packet_dummy(builder, tmp_bytes);
 			break;
 	}
 #if 0
