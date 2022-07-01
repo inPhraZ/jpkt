@@ -2,7 +2,7 @@ prefix := /usr/local
 libdir := ${prefix}/lib
 includedir := ${prefix}/include
 
-rootdir := .
+rootdir := $(PWD)
 SRC := ${rootdir}/src
 INC := ${rootdir}/include
 BIN := ${rootdir}/bin
@@ -12,7 +12,7 @@ EXM := ${rootdir}/example
 MAJOR := 1
 MINOR := 0
 PROG := libjpkt
-LIBJPKT := $(PROG).$(MAJOR).$(MINOR).a
+LIBJPKT := $(PROG).$(MAJOR).$(MINOR)
 
 CC := gcc
 AR := ar
@@ -41,11 +41,12 @@ OBJS :=				\
 lib: 
 	mkdir -p $(LIB) $(BIN)
 	$(CC) $(CFLAGS) -c $(SRC)/*.c -I $(INC) $(DEPS)
-	$(AR) $(ARFLAGS) $(LIB)/$(LIBJPKT) $(OBJS)
+	$(CC) -shared -o $(LIB)/$(LIBJPKT).so $(OBJS)
+	$(AR) $(ARFLAGS) $(LIB)/$(LIBJPKT).a $(OBJS)
 	mv $(OBJS) $(BIN)
 
 example: lib
-	$(CC) $(CFLAGS) -g $(EXM)/$@.c $(LIB)/$(LIBJPKT) -o $(EXM)/$@ -I $(INC) $(DEPS)
+	$(CC) $(CFLAGS) -g $(EXM)/$@.c $(LIB)/$(LIBJPKT).so -o $(EXM)/$@ -I $(INC) $(DEPS)
 
 install: lib
 	@echo
