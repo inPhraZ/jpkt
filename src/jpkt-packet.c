@@ -132,10 +132,6 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
     ethertype_protocols[type](builder, tmp_bytes);
 #endif
 
-    /*-----------------------------------------------------------------------------
-     * TODO: analyze the packet
-     *-----------------------------------------------------------------------------*/
-
     json_builder_end_object(builder);   /*  end of object: layers */
     json_builder_end_object(builder);   /*  end of object: main */
 
@@ -310,8 +306,6 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
     free(ipptr);
 
     ip_upper(builder, bytes, ip_p, len);
-    /*-----------------------------------------------------------------------------
-     * TODO: analyze upper protocol (ip.protocol) 
-     *-----------------------------------------------------------------------------*/
+
     return 0;
 }
