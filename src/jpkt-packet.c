@@ -30,7 +30,7 @@ static int      packet_ip(JsonBuilder *builder, const u_char *bytes);
 /*  dummy function for protocols that have not yet been supported */
 static int packet_dummy(JsonBuilder *builder, const u_char *bytes)
 {
-    return 0;
+	return 0;
 }
 
 #if 0
@@ -58,12 +58,12 @@ static int (*ethertype_protocols[])(JsonBuilder *builder,
 
 static packet_t *packet_alloc()
 {
-    packet_t *pktptr;
-    pktptr = (packet_t *)malloc(sizeof(packet_t));
-    if (!pktptr)
-        return NULL;
-    memset(pktptr, 0, sizeof(packet_t));
-    return pktptr;
+	packet_t *pktptr;
+	pktptr = (packet_t *)malloc(sizeof(packet_t));
+	if (!pktptr)
+		return NULL;
+	memset(pktptr, 0, sizeof(packet_t));
+	return pktptr;
 }
 
 /*  timestamp of captured packet */
@@ -91,31 +91,30 @@ static void packet_timestamp(JsonBuilder *builder,
 /*  Analyze raw bytes of traffic and  */
 packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 {
-    packet_t *pktptr;
-    pktptr = packet_alloc();
-    if (!pktptr)
-        return NULL;
+	packet_t *pktptr;
+	pktptr = packet_alloc();
+	if (!pktptr)
+		return NULL;
 
-    g_autoptr(JsonBuilder) builder = json_builder_new();
-
-    json_builder_begin_object(builder); /*  begin object: main */
+	g_autoptr(JsonBuilder) builder = json_builder_new();
+	json_builder_begin_object(builder); /*  begin object: main */
 
 	/*  timestamp */
 	packet_timestamp(builder, h);
 
-    json_builder_set_member_name(builder, "layers");
-    json_builder_begin_object(builder); /*  begin object: layers */
+	json_builder_set_member_name(builder, "layers");
+	json_builder_begin_object(builder); /*  begin object: layers */
 
-    /*  ethernet header */
-    uint16_t type = packet_eth(builder, bytes);
-    if (type == 0) {
-        packet_free(pktptr);
-        json_builder_reset(builder);
-        return NULL;
-    }
+	/*  ethernet header */
+	uint16_t type = packet_eth(builder, bytes);
+	if (type == 0) {
+		packet_free(pktptr);
+		json_builder_reset(builder);
+		return NULL;
+	}
 
-    /* Skip ethernet header */
-    u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
+	/* Skip ethernet header */
+	u_char *tmp_bytes = (u_char *)(bytes + sizeof(struct ether_header));
 
 	switch(type) {
 		case ETHERTYPE_IP:
@@ -128,16 +127,17 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 			packet_dummy(builder, tmp_bytes);
 			break;
 	}
+
 #if 0
-    ethertype_protocols[type](builder, tmp_bytes);
+	ethertype_protocols[type](builder, tmp_bytes);
 #endif
 
-    json_builder_end_object(builder);   /*  end of object: layers */
-    json_builder_end_object(builder);   /*  end of object: main */
+	json_builder_end_object(builder);   /*  end of object: layers */
+	json_builder_end_object(builder);   /*  end of object: main */
 
-    g_autoptr(JsonNode) root = json_builder_get_root(builder);
-    g_autoptr(JsonGenerator) gen = json_generator_new();
-    json_generator_set_root(gen, root);
+	g_autoptr(JsonNode) root = json_builder_get_root(builder);
+	g_autoptr(JsonGenerator) gen = json_generator_new();
+	json_generator_set_root(gen, root);
 
 	g_autofree char *tmp = json_generator_to_data(gen, NULL);
 	size_t tlen = strlen(tmp);
@@ -146,166 +146,166 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 	memset(pktptr->pktmsg, 0, tlen + 1);
 	memmove(pktptr->pktmsg, tmp, tlen);
 
-    return pktptr;
+	return pktptr;
 }
 
 static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
-    uint16_t type;
-    ethernet_t *ethp = ethernet_extract(bytes);
-    if (!ethp)
-        return 0;
+	uint16_t type;
+	ethernet_t *ethp = ethernet_extract(bytes);
+	if (!ethp)
+		return 0;
 
-    json_builder_set_member_name(builder, "eth");   /*  begin object: eth */
-    json_builder_begin_object(builder);
+	json_builder_set_member_name(builder, "eth");   /*  begin object: eth */
+	json_builder_begin_object(builder);
 
-    /* eth.shost  */
-    json_builder_set_member_name(builder, "eth.shost");
-    json_builder_add_string_value(builder, ethp->shost_str);
+	/* eth.shost  */
+	json_builder_set_member_name(builder, "eth.shost");
+	json_builder_add_string_value(builder, ethp->shost_str);
 
-    /* eth.dhost  */
-    json_builder_set_member_name(builder, "eth.dhost");
-    json_builder_add_string_value(builder, ethp->dhost_str);
+	/* eth.dhost  */
+	json_builder_set_member_name(builder, "eth.dhost");
+	json_builder_add_string_value(builder, ethp->dhost_str);
 
-    /* eth.type */
-    json_builder_set_member_name(builder, "eth.type");
-    json_builder_add_string_value(builder, ethp->type_str);
+	/* eth.type */
+	json_builder_set_member_name(builder, "eth.type");
+	json_builder_add_string_value(builder, ethp->type_str);
 
-    json_builder_end_object(builder);   /*  end of object: eth */
+	json_builder_end_object(builder);   /*  end of object: eth */
 
-    type = ethp->type;
-    ethernet_free(ethp);
+	type = ethp->type;
+	ethernet_free(ethp);
 
-    return type;
+	return type;
 }
 
 static int  packet_arp(JsonBuilder *builder, const u_char *bytes)
 {
-    arp_t *arpptr = arp_extract(bytes);
-    if (!arpptr)
-        return 1;
+	arp_t *arpptr = arp_extract(bytes);
+	if (!arpptr)
+		return 1;
 
-    json_builder_set_member_name(builder, "arp");   /*  begin object: arp */
-    json_builder_begin_object(builder);
+	json_builder_set_member_name(builder, "arp");   /*  begin object: arp */
+	json_builder_begin_object(builder);
 
-    /* arp.hw.type  */
-    json_builder_set_member_name(builder, "arp.hw.type");
-    json_builder_add_string_value(builder, arpptr->ar_hrd);
+	/* arp.hw.type  */
+	json_builder_set_member_name(builder, "arp.hw.type");
+	json_builder_add_string_value(builder, arpptr->ar_hrd);
 
-    /* arp.proto.type  */
-    json_builder_set_member_name(builder, "arp.proto.type");
-    json_builder_add_string_value(builder, arpptr->ar_pro);
+	/* arp.proto.type  */
+	json_builder_set_member_name(builder, "arp.proto.type");
+	json_builder_add_string_value(builder, arpptr->ar_pro);
 
-    /* arp.hw.size */
-    json_builder_set_member_name(builder, "arp.hw.size");
-    json_builder_add_int_value(builder, arpptr->ar_hln);
+	/* arp.hw.size */
+	json_builder_set_member_name(builder, "arp.hw.size");
+	json_builder_add_int_value(builder, arpptr->ar_hln);
 
-    /* arp.proto.size */
-    json_builder_set_member_name(builder, "arp.proto.size");
-    json_builder_add_int_value(builder, arpptr->ar_pln);
+	/* arp.proto.size */
+	json_builder_set_member_name(builder, "arp.proto.size");
+	json_builder_add_int_value(builder, arpptr->ar_pln);
 
-    /*  arp.opcode */
-    json_builder_set_member_name(builder, "arp.opcode");
-    json_builder_add_string_value(builder, arpptr->ar_op);
+	/*  arp.opcode */
+	json_builder_set_member_name(builder, "arp.opcode");
+	json_builder_add_string_value(builder, arpptr->ar_op);
 
-    /*  arp.src.mac */
-    json_builder_set_member_name(builder, "arp.src.mac");
-    json_builder_add_string_value(builder, arpptr->ar_sha);
+	/*  arp.src.mac */
+	json_builder_set_member_name(builder, "arp.src.mac");
+	json_builder_add_string_value(builder, arpptr->ar_sha);
 
-    /*  arp.src.ip */
-    json_builder_set_member_name(builder, "arp.src.ip");
-    json_builder_add_string_value(builder, arpptr->ar_sip);
+	/*  arp.src.ip */
+	json_builder_set_member_name(builder, "arp.src.ip");
+	json_builder_add_string_value(builder, arpptr->ar_sip);
 
-    /*  arp.dst.mac */
-    json_builder_set_member_name(builder, "arp.dst.mac");
-    json_builder_add_string_value(builder, arpptr->ar_tha);
+	/*  arp.dst.mac */
+	json_builder_set_member_name(builder, "arp.dst.mac");
+	json_builder_add_string_value(builder, arpptr->ar_tha);
 
-    /*  arp.dst.ip */
-    json_builder_set_member_name(builder, "arp.dst.ip");
-    json_builder_add_string_value(builder, arpptr->ar_tip);
+	/*  arp.dst.ip */
+	json_builder_set_member_name(builder, "arp.dst.ip");
+	json_builder_add_string_value(builder, arpptr->ar_tip);
 
-    json_builder_end_object(builder);   /*  end of object: arp */
+	json_builder_end_object(builder);   /*  end of object: arp */
 
-    arp_free(arpptr);
+	arp_free(arpptr);
 
-    return 0;
+	return 0;
 }
 
 /*  analyze raw bytes to extract ip header */
 static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 {
-    uint8_t ip_p;
+	uint8_t ip_p;
 	uint16_t len;
 
-    ip_t *ipptr;
-    if (!builder || !bytes)
-        return 1;
+	ip_t *ipptr;
+	if (!builder || !bytes)
+		return 1;
 
-    ipptr = ip_extract(bytes);
+	ipptr = ip_extract(bytes);
 
-    json_builder_set_member_name(builder, "ip");    /*  begin object: ip */
-    json_builder_begin_object(builder);
+	json_builder_set_member_name(builder, "ip");    /*  begin object: ip */
+	json_builder_begin_object(builder);
 
-    /* ip.version  */
-    json_builder_set_member_name(builder, "ip.version");
-    json_builder_add_int_value(builder, ipptr->ip_v);
+	/* ip.version  */
+	json_builder_set_member_name(builder, "ip.version");
+	json_builder_add_int_value(builder, ipptr->ip_v);
 
-    /* ip.hdrlen  */
-    json_builder_set_member_name(builder, "ip.hdrlen");
-    json_builder_add_int_value(builder, ipptr->ip_hl);
+	/* ip.hdrlen  */
+	json_builder_set_member_name(builder, "ip.hdrlen");
+	json_builder_add_int_value(builder, ipptr->ip_hl);
 
-    /* ip.tos  */
-    json_builder_set_member_name(builder, "ip.tos");
-    json_builder_add_string_value(builder, ipptr->ip_tos);
+	/* ip.tos  */
+	json_builder_set_member_name(builder, "ip.tos");
+	json_builder_add_string_value(builder, ipptr->ip_tos);
 
-    /* ip.len  */
-    json_builder_set_member_name(builder, "ip.len");
-    json_builder_add_int_value(builder, ipptr->ip_len);
+	/* ip.len  */
+	json_builder_set_member_name(builder, "ip.len");
+	json_builder_add_int_value(builder, ipptr->ip_len);
 
-    /* ip.id  */
-    json_builder_set_member_name(builder, "ip.id");
-    json_builder_add_string_value(builder, ipptr->ip_id);
+	/* ip.id  */
+	json_builder_set_member_name(builder, "ip.id");
+	json_builder_add_string_value(builder, ipptr->ip_id);
 
-    /* ip.flags  */
-    json_builder_set_member_name(builder, "ip.flags");
-    json_builder_add_string_value(builder, ipptr->ip_flags);
+	/* ip.flags  */
+	json_builder_set_member_name(builder, "ip.flags");
+	json_builder_add_string_value(builder, ipptr->ip_flags);
 
-    /* ip.off  */
-    json_builder_set_member_name(builder, "ip.off");
-    json_builder_add_string_value(builder, ipptr->ip_off);
+	/* ip.off  */
+	json_builder_set_member_name(builder, "ip.off");
+	json_builder_add_string_value(builder, ipptr->ip_off);
 
-    /* ip.ttl  */
-    json_builder_set_member_name(builder, "ip.ttl");
-    json_builder_add_int_value(builder, ipptr->ip_ttl);
+	/* ip.ttl  */
+	json_builder_set_member_name(builder, "ip.ttl");
+	json_builder_add_int_value(builder, ipptr->ip_ttl);
 
-    /* ip.protocol */
-    json_builder_set_member_name(builder, "ip.protocol");
-    json_builder_add_int_value(builder, ipptr->ip_p);
+	/* ip.protocol */
+	json_builder_set_member_name(builder, "ip.protocol");
+	json_builder_add_int_value(builder, ipptr->ip_p);
 
-    /* ip.protocol.str  */
-    json_builder_set_member_name(builder, "ip.protocol.str");
-    json_builder_add_string_value(builder, ipptr->ip_protocol);
+	/* ip.protocol.str  */
+	json_builder_set_member_name(builder, "ip.protocol.str");
+	json_builder_add_string_value(builder, ipptr->ip_protocol);
 
-    /* ip.shecksum  */
-    json_builder_set_member_name(builder, "ip.checksum");
-    json_builder_add_string_value(builder, ipptr->ip_sum);
+	/* ip.shecksum  */
+	json_builder_set_member_name(builder, "ip.checksum");
+	json_builder_add_string_value(builder, ipptr->ip_sum);
 
-    /* ip.src  */
-    json_builder_set_member_name(builder, "ip.src");
-    json_builder_add_string_value(builder, ipptr->ip_src);
+	/* ip.src  */
+	json_builder_set_member_name(builder, "ip.src");
+	json_builder_add_string_value(builder, ipptr->ip_src);
 
-    /* ip.dst  */
-    json_builder_set_member_name(builder, "ip.dst");
-    json_builder_add_string_value(builder, ipptr->ip_dst);
+	/* ip.dst  */
+	json_builder_set_member_name(builder, "ip.dst");
+	json_builder_add_string_value(builder, ipptr->ip_dst);
 
-    json_builder_end_object(builder);               /*  end of object: ip */
+	json_builder_end_object(builder);               /*  end of object: ip */
 
-    ip_p = ipptr->ip_p;
+	ip_p = ipptr->ip_p;
 	len = ipptr->ip_len - ipptr->ip_hl;
 
-    free(ipptr);
+	free(ipptr);
 
-    ip_upper(builder, bytes, ip_p, len);
+	ip_upper(builder, bytes, ip_p, len);
 
-    return 0;
+	return 0;
 }
