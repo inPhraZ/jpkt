@@ -303,7 +303,7 @@ static int packet_ip(JsonBuilder *builder, const u_char *bytes)
 	ip_p = ipptr->ip_p;
 	len = ipptr->ip_len - ipptr->ip_hl;
 
-	free(ipptr);
+	ip_free(ipptr);
 
 	ip_upper(builder, bytes, ip_p, len);
 
