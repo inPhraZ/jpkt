@@ -93,10 +93,8 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 {
     packet_t *pktptr;
     pktptr = packet_alloc();
-    if (!pktptr) {
-        perror("allocate_packet");
+    if (!pktptr)
         return NULL;
-    }
 
     g_autoptr(JsonBuilder) builder = json_builder_new();
 
@@ -159,10 +157,8 @@ static uint16_t  packet_eth(JsonBuilder *builder, const u_char *bytes)
 {
     uint16_t type;
     ethernet_t *ethp = ethernet_extract(bytes);
-    if (!ethp) {
-        fprintf(stderr, "ethernet_extract failed");
+    if (!ethp)
         return 0;
-    }
 
     json_builder_set_member_name(builder, "eth");   /*  begin object: eth */
     json_builder_begin_object(builder);
