@@ -146,6 +146,8 @@ packet_t   *packet_extract(const struct pcap_pkthdr *h, const u_char *bytes)
 	memset(pktptr->pktmsg, 0, tlen + 1);
 	memmove(pktptr->pktmsg, tmp, tlen);
 
+	json_builder_reset(builder);
+
 	return pktptr;
 }
 
