@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 3.10)
 
 project(jpkt C)
 
-set(SHARED_TARGET "${PROJECT_NAME}shared")
-set(STATIC_TARGET "${PROJECT_NAME}static")
+set(SHARED_TARGET "${PROJECT_NAME}-shared")
+set(STATIC_TARGET "${PROJECT_NAME}-static")
+set(EXAMPLE_TARGET "example")
 
 find_package(PkgConfig REQUIRED)
 
@@ -34,6 +35,6 @@ endfunction()
 jpkt_build_library(${SHARED_TARGET} SHARED)
 jpkt_build_library(${STATIC_TARGET} STATIC)
 
-add_executable(ex ${CMAKE_SOURCE_DIR}/example/example.c)
-target_link_libraries(ex PRIVATE ${STATIC_TARGET})
+add_executable(${EXAMPLE_TARGET} ${CMAKE_SOURCE_DIR}/examples/example.c)
+target_link_libraries(${EXAMPLE_TARGET} PRIVATE ${STATIC_TARGET})
 

@@ -7,7 +7,7 @@ SRC := ${rootdir}/src
 INC := ${rootdir}/include
 BIN := ${rootdir}/bin
 LIB := ${rootdir}/lib
-EXM := ${rootdir}/example
+EXM := ${rootdir}/examples
 
 MAJOR := 1
 MINOR := 0
