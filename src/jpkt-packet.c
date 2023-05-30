@@ -11,10 +11,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include <glib-object.h>
-#include <pcap/pcap.h>
 #include <arpa/inet.h>
 #include <net/ethernet.h>
+
+#include <glib-object.h>
 #include <json-glib/json-glib.h>
 
 #include "jpkt-packet.h"

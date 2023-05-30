@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <pcap/pcap.h>
 
 #include "jpkt.h"
 #include "jpkt-packet.h"
@@ -47,9 +46,9 @@ int jpkt_sniff(const char *iface,
 {
 	pcap_t *p = NULL;
 	int to_ms;
-	char errbuf[PCAP_ERRBUF_SIZE];
+	char errbuf[JPKT_ERRBUF_SIZE];
 
-	memset(errbuf, 0, PCAP_ERRBUF_SIZE);
+	memset(errbuf, 0, JPKT_ERRBUF_SIZE);
 	p = pcap_create(iface, errbuf);
 	if (!p) {
 		fprintf(stderr, "pcap_create: %s\n", errbuf);
@@ -64,13 +63,15 @@ int jpkt_sniff(const char *iface,
 		return 1;
 	}
 
-	struct callback_data *data;
+	struct callback_data *data = NULL;
 	data = (struct callback_data *)malloc(sizeof(struct callback_data));
 
 	data->user = user;
 	data->callback = callback;
 	pcap_loop(p, 0, jpkt_sniff_handler, (u_char *)data);
 	pcap_close(p);
+	free(data);
+	data = NULL;
 
 	return 0;
 }
