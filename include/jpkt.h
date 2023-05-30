@@ -20,6 +20,7 @@ void jpkt_freealldevs(jpkt_if_t *alldevs);
 
 int jpkt_sniff(const char *iface,
 		unsigned int count,
+		unsigned int timeout,
 		jpkt_handler,
 		void *user);
 

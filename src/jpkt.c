@@ -41,13 +41,13 @@ static void jpkt_sniff_handler(u_char *user, const struct pcap_pkthdr *h, const 
 
 int jpkt_sniff(const char *iface,
 		unsigned int count,
+		unsigned int timeout,
 		jpkt_handler callback,
 		void *user)
 {
 	pcap_t *p = NULL;
-	int to_ms;
 	char errbuf[JPKT_ERRBUF_SIZE];
-
+	
 	memset(errbuf, 0, JPKT_ERRBUF_SIZE);
 	p = pcap_create(iface, errbuf);
 	if (!p) {
@@ -55,8 +55,7 @@ int jpkt_sniff(const char *iface,
 		return 1;
 	}
 
-	to_ms = 2000;
-	pcap_set_timeout(p, to_ms);
+	pcap_set_timeout(p, timeout);
 	if (pcap_activate(p)) {
 		pcap_perror(p, "pcap_activate");
 		pcap_close(p);

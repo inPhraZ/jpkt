@@ -44,7 +44,7 @@ int main()
 	jpkt_freealldevs(alldevsp);
 
 	int a = 10;
-	jpkt_sniff(ifname, 0, callback, &a);
+	jpkt_sniff(ifname, 0, 1000, callback, &a);
 
 	return 0;
 }
